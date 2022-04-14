@@ -23,7 +23,7 @@ await build({
   },
   package: {
     author: "Yuzuru",
-    name: "oasis-js",
+    name: "oasis-framework",
     version: Deno.args[0],
     description: "Bleeding edge object oriented Discordeno framework for creating bots",
     license: "Apache License 2.0",

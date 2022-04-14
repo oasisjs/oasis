@@ -1,2 +1,2 @@
 # oasis
-An object oriented Discordeno framework
+Bleeding edge object oriented Discordeno framework for creating bots
