@@ -61,7 +61,7 @@ await build({
       name: "discordeno",
       version: "13.0.0-rc35",
     },
-    "https://deno.land/x/deno_reflect@v0.1.13/mod.ts": {
+    "./reflect-metadata.ts": {
       name: "reflect-metadata",
       version: "0.1.13"
     }

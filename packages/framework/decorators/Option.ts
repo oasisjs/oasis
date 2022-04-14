@@ -1,5 +1,6 @@
 import { ApplicationCommandOptionTypes, ChannelTypes } from "../../deps.ts";
 import type { ApplicationCommandOption, ApplicationCommandOptionChoice } from "../../deps.ts";
+import "../../../reflect-metadata.ts";
 
 export function Argument(description: string, required = false): PropertyDecorator {
     return function (object, name) {
