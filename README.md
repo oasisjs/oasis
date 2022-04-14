@@ -1,8 +1,7 @@
 # Oasis
 Bleeding edge object oriented Discordeno framework for creating bots
-Oasis is minimal by design and it does not ships any cache layer so you can implement your own
+Oasis is minimal by design and it does not ship any cache layer so you can implement your own
 Oasis is written Fully in typescript
-Oasis is made in Deno https://deno.land/x/oasis@1.0.0/mod.ts
 
 ## Efficient & Cross-platform
 Oasis is based on Discordeno, a lightweight Discord library for building mostly big Discord bots
@@ -110,7 +109,7 @@ Node: `npm install oasis-framework`
 
 ## Useful resources
 * the [Discordeno](https://github.com/discordeno/discordeno) library and [website](https://discordeno.mod.land/)
-* the [Discordeno](https://discord.com/invite/ddeno) Discord server so you can ask me for help
+* the Discordeno [Discord server](https://discord.gg/ddeno) so you can ask me for help
 * Cache layer for Discordeno https://github.com/discordeno/discordeno/blob/main/plugins/cache
 * Bot using the Oasis framework (not released yet) https://github.com/yuzudev/akebi
 
