@@ -1,4 +1,3 @@
-import { Reflect } from "../../deps.ts";
 import { ApplicationCommandOptionTypes, ChannelTypes } from "../../deps.ts";
 import type { ApplicationCommandOption, ApplicationCommandOptionChoice } from "../../deps.ts";
 
@@ -10,6 +9,7 @@ export function Argument(description: string, required = false): PropertyDecorat
             required,
         };
 
+        // @ts-expect-error: TODO
         const dataType = Reflect.getMetadata("design:type", object, name);
 
         argument.type =
