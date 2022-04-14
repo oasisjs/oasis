@@ -6,6 +6,20 @@ await build({
   shims: {
     deno: true,
     timers: true,
+    custom: [
+      {
+        package: {
+          name: "ws",
+          version: "^8.4.0",
+        },
+        globalNames: [
+          {
+            name: "WebSocket",
+            exportName: "default",
+          },
+        ],
+      },
+    ],
   },
   package: {
     author: "Yuzuru",
