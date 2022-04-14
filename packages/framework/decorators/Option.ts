@@ -10,7 +10,7 @@ export function Argument(description: string, required = false): PropertyDecorat
             required,
         };
 
-        // @ts-expect-error: TODO
+        // @ts-ignore
         const dataType = Reflect.getMetadata("design:type", object, name);
 
         argument.type =

@@ -68,8 +68,6 @@ await build({
       path: "packages/misc/mod.ts"
     },
   ],
-  outDir: "./npm",
-  declaration: true,
   mappings: {
     "https://deno.land/x/discordeno@13.0.0-rc35/mod.ts": {
       name: "discordeno",
@@ -80,6 +78,10 @@ await build({
       version: "0.1.13"
     }
   },
+  outDir: "./npm",
+  declaration: true,
+  typeCheck: false,
+  test: false,
 });
 
 // post build steps
