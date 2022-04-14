@@ -26,7 +26,6 @@ await build({
         "builders": [ "./types/builders/mod.d.ts" ],
         "fileloader": [ "./types/fileloader/mod.d.ts" ],
         "collectors": [ "./types/collectors/mod.d.ts" ],
-        "loggger": [ "./types/logger/mod.d.ts" ],
         "framework": [ "./types/logger/mod.d.ts" ],
         "misc": [ "./types/misc/mod.d.ts" ],
       }
@@ -45,10 +44,6 @@ await build({
     {
       name: "./collectors",
       path: "packages/collectors/mod.ts",
-    },
-    {
-      name: "./logger",
-      path: "packages/logger/mod.ts",
     },
     {
       name: "./framework",
