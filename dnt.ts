@@ -37,11 +37,11 @@ await build({
     typesVersions: {
       "*": {
         "*": [ "./types/mod.d.ts" ],
-        "builders": [ "./types/builders/mod.d.ts" ],
-        "fileloader": [ "./types/fileloader/mod.d.ts" ],
-        "collectors": [ "./types/collectors/mod.d.ts" ],
-        "framework": [ "./types/logger/mod.d.ts" ],
-        "misc": [ "./types/misc/mod.d.ts" ],
+        "builders": [ "./types/packages/builders/mod.d.ts" ],
+        "fileloader": [ "./types/packages/fileloader/mod.d.ts" ],
+        "collectors": [ "./types/packages/collectors/mod.d.ts" ],
+        "framework": [ "./types/packages/logger/mod.d.ts" ],
+        "misc": [ "./types/packages/misc/mod.d.ts" ],
       }
     },
   },
