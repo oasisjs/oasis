@@ -70,6 +70,10 @@ await build({
       name: "reflect-metadata",
       version: "0.1.13"
     },
+    "https://deno.land/std@0.119.0/fmt/colors.ts": {
+      name: "chalk",
+      version: "5.0.1",
+    }
   },
 });
 

@@ -1,10 +1,10 @@
-import { ApplicationCommandOptionTypes } from "../../../deps/discordeno.ts";
+import { ApplicationCommandOptionTypes } from "../../deps.ts";
 import { mix } from "../mixer/mod.ts";
 import type {
     ApplicationCommandOption,
     ApplicationCommandOptionChoice,
     ChannelTypes,
-} from "../../../deps/discordeno.ts";
+} from "../../deps.ts";
 
 export class ChoiceBuilder {
     public name?: string;
