@@ -5,10 +5,10 @@ import type {
     ButtonCollectorOptions,
     ButtonCollectorReturn,
     CollectButtonOptions,
-} from "./types/collector.ts";
-import type { Interaction, Message } from "../deps.ts";
-import { Milliseconds } from "./constants.ts";
-import { Collection } from "../deps.ts";
+} from './types/collector.ts';
+import type { Interaction, Message } from '../deps.ts';
+import { Milliseconds } from './constants.ts';
+import { Collection } from '../deps.ts';
 
 export const collectors = {
     buttons: new Collection<bigint, ButtonCollector>(),
@@ -20,7 +20,7 @@ export function collectButtons(options: CollectButtonOptions): Promise<ButtonCol
     return new Promise((resolve, reject) => {
         collectors.buttons
             .get(options.key)
-            ?.reject("A new collector began before the user responded to the previous one.");
+            ?.reject('A new collector began before the user responded to the previous one.');
         collectors.buttons.set(options.key, {
             ...options,
             buttons: [] as ButtonCollectorReturn[],
@@ -33,12 +33,12 @@ export function collectButtons(options: CollectButtonOptions): Promise<ButtonCol
 export async function needButton(
     userId: bigint,
     messageId: bigint,
-    options: ButtonCollectorOptions & { amount?: 1 }
+    options: ButtonCollectorOptions & { amount?: 1 },
 ): Promise<ButtonCollectorReturn>;
 export async function needButton(
     userId: bigint,
     messageId: bigint,
-    options: ButtonCollectorOptions & { amount?: number }
+    options: ButtonCollectorOptions & { amount?: number },
 ): Promise<ButtonCollectorReturn[]>;
 export async function needButton(userId: bigint, messageId: bigint): Promise<ButtonCollectorReturn>;
 export async function needButton(userId: bigint, messageId: bigint, options?: ButtonCollectorOptions) {
@@ -74,7 +74,7 @@ export function processButtonCollectors(data: Interaction) {
         return collector.resolve([
             ...collector.buttons,
             {
-                customId: data.data?.customId ?? "No customId provided for this button.",
+                customId: data.data?.customId ?? 'No customId provided for this button.',
                 interaction: data,
                 user: data.user,
             },
@@ -83,7 +83,7 @@ export function processButtonCollectors(data: Interaction) {
 
     // More buttons still need to be collected
     collector.buttons.push({
-        customId: data.data?.customId ?? "No customId provided for this button.",
+        customId: data.data?.customId ?? 'No customId provided for this button.',
         interaction: data,
         user: data.user,
     });

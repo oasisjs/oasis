@@ -1,16 +1,16 @@
-import { ApplicationCommandTypes } from "../../deps.ts";
-import { OptionBased } from "./SlashCommandOption.ts";
-import { mix } from "../mixer/mod.ts";
-import type { CreateApplicationCommand } from "../../deps.ts";
+import { ApplicationCommandTypes } from '../../deps.ts';
+import { OptionBased } from './SlashCommandOption.ts';
+import { mix } from '../mixer/mod.ts';
+import type { CreateApplicationCommand } from '../../deps.ts';
 
 export abstract class ApplicationCommandBuilder implements CreateApplicationCommand {
     protected constructor(
         // required
         public type: ApplicationCommandTypes = ApplicationCommandTypes.ChatInput,
-        public name = "",
-        public description = "",
+        public name = '',
+        public description = '',
         // non-required
-        public defaultPermission?: boolean
+        public defaultPermission?: boolean,
     ) {
         this.type = type;
         this.name = name;
@@ -35,7 +35,7 @@ export class MessageApplicationCommandBuilder {
     public constructor(
         // required
         public type?: ApplicationCommandTypes,
-        public name?: string
+        public name?: string,
     ) {
         this.type = ApplicationCommandTypes.Message;
         this.name = name;
@@ -46,7 +46,7 @@ export class MessageApplicationCommandBuilder {
     }
 
     public toJSON(): { name: string; type: ApplicationCommandTypes.Message } {
-        if (!this.name) throw new TypeError("Propety 'name' is required");
+        if (!this.name) throw new TypeError('Propety \'name\' is required');
 
         return {
             type: ApplicationCommandTypes.Message,
@@ -63,17 +63,17 @@ export class ChatInputApplicationCommandBuilder {
     public type: ApplicationCommandTypes.ChatInput = ApplicationCommandTypes.ChatInput;
 
     public toJSON(): CreateApplicationCommand {
-        if (!this.type) throw new TypeError("Propety 'type' is required");
-        if (!this.name) throw new TypeError("Propety 'name' is required");
+        if (!this.type) throw new TypeError('Propety \'type\' is required');
+        if (!this.name) throw new TypeError('Propety \'name\' is required');
         if (!this.description) {
-            throw new TypeError("Propety 'description' is required");
+            throw new TypeError('Propety \'description\' is required');
         }
 
         return {
             type: ApplicationCommandTypes.ChatInput,
             name: this.name,
             description: this.description,
-            options: this.options?.map(o => o.toJSON()) ?? [],
+            options: this.options?.map((o) => o.toJSON()) ?? [],
             defaultPermission: this.defaultPermission,
         };
     }

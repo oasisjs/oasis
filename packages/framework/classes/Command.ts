@@ -1,6 +1,6 @@
-import type { CreateApplicationCommand } from "../../deps.ts";
-import type { Context } from "./Context.ts";
-import { commands, commandAliases } from "../cache.ts";
+import type { CreateApplicationCommand } from '../../deps.ts';
+import type { Context } from './Context.ts';
+import { commandAliases, commands } from '../cache.ts';
 
 /**
  * Adds a command to the cache
@@ -10,7 +10,7 @@ export function claim<T extends Partial<BaseCommand>>(cmd: T, options?: unknown[
 
     commands.set(cmd.data?.name!, [cmd as BaseCommand, options]);
 
-    if (cmd.data) aliases?.forEach(a => commandAliases.set(a, cmd.data!.name!));
+    if (cmd.data) aliases?.forEach((a) => commandAliases.set(a, cmd.data!.name!));
 }
 
 /**

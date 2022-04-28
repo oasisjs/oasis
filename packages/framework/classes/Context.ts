@@ -1,10 +1,13 @@
-import type { Bot, Interaction, Message } from "../../deps.ts";
-import type { OasisCommandInteractionOption } from "./CommandInteractionOptionResolver.ts";
-import type { CreateCommand } from "./CreateCommand.ts";
-import { CommandInteractionOptionResolver, transformInteractionDataOption } from "./CommandInteractionOptionResolver.ts";
-import { MessageContext } from "./MessageContext.ts";
-import { InteractionContext } from "./InteractionContext.ts";
-import { InteractionResponseTypes } from "../../deps.ts";
+import type { Bot, Interaction, Message } from '../../deps.ts';
+import type { OasisCommandInteractionOption } from './CommandInteractionOptionResolver.ts';
+import type { CreateCommand } from './CreateCommand.ts';
+import {
+    CommandInteractionOptionResolver,
+    transformInteractionDataOption,
+} from './CommandInteractionOptionResolver.ts';
+import { MessageContext } from './MessageContext.ts';
+import { InteractionContext } from './InteractionContext.ts';
+import { InteractionResponseTypes } from '../../deps.ts';
 
 export type RespondFunction = (options: CreateCommand) => Promise<Message | undefined>;
 export type RespondPrivatelyFunction = (options: CreateCommand) => Promise<Message | undefined>;
@@ -59,7 +62,7 @@ export class Context<T extends Bot = Bot> implements ContextFunctions {
 
     constructor(prefix: string, bot: T, message?: Message, interaction?: Interaction) {
         if (!interaction && !message) {
-            console.warn("Context must be created with either a message or interaction");
+            console.warn('Context must be created with either a message or interaction');
         }
 
         this.prefix = prefix;
@@ -79,10 +82,10 @@ export class Context<T extends Bot = Bot> implements ContextFunctions {
 
         this.options = new CommandInteractionOptionResolver(
             !message ? interaction?.data?.options ?? [] : MessageContext.getOptionsFromMessage(prefix, message),
-            interaction?.data?.resolved
+            interaction?.data?.resolved,
         );
 
-        Object.defineProperty(this, "bot", { enumerable: false, writable: false, value: bot });
+        Object.defineProperty(this, 'bot', { enumerable: false, writable: false, value: bot });
     }
 
     /**
@@ -116,13 +119,13 @@ export class Context<T extends Bot = Bot> implements ContextFunctions {
             const c = this.interactionContext.interaction.data?.name;
 
             if (!c) {
-                return force ? "" : undefined;
+                return force ? '' : undefined;
             }
 
             return c;
         }
 
-        return force ? "" : undefined;
+        return force ? '' : undefined;
     }
 
     /**
@@ -174,5 +177,5 @@ export class Context<T extends Bot = Bot> implements ContextFunctions {
 
 /** Sleep function */
 export function sleep(ms: number): Promise<unknown> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }

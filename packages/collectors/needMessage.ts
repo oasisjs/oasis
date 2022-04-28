@@ -1,9 +1,9 @@
 // all credits to the Discordeno authors
 
-import type { CollectMessagesOptions, MessageCollector, MessageCollectorOptions } from "./types/collector.ts";
-import type { Message } from "../deps.ts";
-import { Collection } from "../deps.ts";
-import { Milliseconds } from "./constants.ts";
+import type { CollectMessagesOptions, MessageCollector, MessageCollectorOptions } from './types/collector.ts';
+import type { Message } from '../deps.ts';
+import { Collection } from '../deps.ts';
+import { Milliseconds } from './constants.ts';
 
 const collectors = {
     messages: new Collection<bigint, MessageCollector>(),
@@ -15,7 +15,7 @@ export function collectMessages(options: CollectMessagesOptions): Promise<Messag
     return new Promise((resolve, reject) => {
         collectors.messages
             .get(options.key)
-            ?.reject("A new collector began before the user responded to the previous one.");
+            ?.reject('A new collector began before the user responded to the previous one.');
 
         collectors.messages.set(options.key, {
             ...options,
@@ -29,12 +29,12 @@ export function collectMessages(options: CollectMessagesOptions): Promise<Messag
 export async function needMessage(
     memberId: bigint,
     channelId: bigint,
-    options: MessageCollectorOptions & { amount?: 1 }
+    options: MessageCollectorOptions & { amount?: 1 },
 ): Promise<Message>;
 export async function needMessage(
     memberId: bigint,
     channelId: bigint,
-    options: MessageCollectorOptions & { amount?: number }
+    options: MessageCollectorOptions & { amount?: number },
 ): Promise<Message[]>;
 export async function needMessage(memberId: bigint, channelId: bigint): Promise<Message>;
 export async function needMessage(memberId: bigint, channelId: bigint, options?: MessageCollectorOptions) {
@@ -42,7 +42,7 @@ export async function needMessage(memberId: bigint, channelId: bigint, options?:
         key: memberId,
         channelId,
         createdAt: Date.now(),
-        filter: options?.filter ?? (msg => memberId === msg.authorId),
+        filter: options?.filter ?? ((msg) => memberId === msg.authorId),
         amount: options?.amount ?? 1,
         duration: options?.duration ?? Milliseconds.Minute * 5,
     });

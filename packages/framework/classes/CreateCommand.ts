@@ -1,11 +1,11 @@
-import type { AllowedMentions, FileContent } from "../../deps.ts";
-import type { MessageEmbed } from "../../builders/mod.ts";
-import type { InteractionResponseTypes, MessageComponents } from "../../deps.ts";
+import type { AllowedMentions, FileContent } from '../../deps.ts';
+import type { MessageEmbed } from '../../builders/mod.ts';
+import type { InteractionResponseTypes, MessageComponents } from '../../deps.ts';
 
 /**
  * CreateMessage with improvements
  */
- export interface BaseCreateCommand {
+export interface BaseCreateCommand {
     /** Message content */
     with?: string | MessageEmbed | MessageEmbed[];
     mentions?: AllowedMentions;

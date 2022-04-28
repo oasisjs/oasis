@@ -1,5 +1,5 @@
-import type { BaseCommand } from "../classes/Command.ts";
-import { claim } from "../classes/Command.ts";
+import type { BaseCommand } from '../classes/Command.ts';
+import { claim } from '../classes/Command.ts';
 
 /** Makes an instance of the command and adds the command to cache */
 export function Command<T extends { new (...args: unknown[]): Partial<BaseCommand> }>(target: T) {

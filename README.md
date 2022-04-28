@@ -1,21 +1,32 @@
 # Oasis
-Bleeding edge object oriented Discordeno framework for creating bots
-Oasis is minimal by design and it does not ship any cache layer so you can implement your own
-Oasis is written Fully in typescript
+
+Bleeding edge object oriented Discordeno framework for creating bots Oasis is minimal by design and it does not ship any
+cache layer so you can implement your own Oasis is written Fully in typescript
 
 ## Efficient & Cross-platform
-Oasis is based on Discordeno, a lightweight Discord library for building mostly big Discord bots
-Since Discordeno is cross platform Oasis ships a Node version by default which is a lot more bleeding-edge!
-`npm install oasis-framework`
+
+Oasis is based on Discordeno, a lightweight Discord library for building mostly big Discord bots Since Discordeno is
+cross platform Oasis ships a Node version by default which is a lot more bleeding-edge! `npm install oasis-framework`
 
 ## Creating commands with Deno
-Oasis makes it easier to write commands that work on both messages and interactions
-Oasis avoids the use inheriterance and prefers composition and middlewares
+
+Oasis makes it easier to write commands that work on both messages and interactions Oasis avoids the use inheriterance
+and prefers composition and middlewares
+
 ```ts
 import { Argument, Command, Context } from 'oasis';
 
 // define responses
-const responses = [ 'It is certain','It is decidedly so','Without a doubt','Yes, definitely','You may rely on it','Most likely','Outlook good','Yes'];
+const responses = [
+    'It is certain',
+    'It is decidedly so',
+    'Without a doubt',
+    'Yes, definitely',
+    'You may rely on it',
+    'Most likely',
+    'Outlook good',
+    'Yes',
+];
 
 @Command
 class EightBall {
@@ -41,17 +52,19 @@ class EightBall {
         const response = responses[Math.floor(Math.random() * responses.length)];
 
         if (question) {
-        	await ctx.respond({ with: `Question: ${question} | Reply: ${response}` });
+            await ctx.respond({ with: `Question: ${question} | Reply: ${response}` });
         }
     }
 }
 ```
 
 ## How make a simple middleware to execute commands
-Oasis is minimal by design, so you can make your own Context class that suits your needs
-heres a minimal example of how to write a middleware (no typescript needed)
+
+Oasis is minimal by design, so you can make your own Context class that suits your needs heres a minimal example of how
+to write a middleware (no typescript needed)
+
 ```ts
-const PREFIX = "->";
+const PREFIX = '->';
 const { interactionCreate, messageCreate } = bot.events;
 
 bot.events.interactionCreate = (bot, interaction) => {
@@ -104,15 +117,17 @@ bot.events.messageCreate = (bot, message) => {
 ```
 
 ## Installation
-Deno: `deno cache https://deno.land/x/oasis@1.0.0/mod.ts`
-Node: `npm install oasis-framework`
+
+Deno: `deno cache https://deno.land/x/oasis@1.0.0/mod.ts` Node: `npm install oasis-framework`
 
 ## Useful resources
-* the [Discordeno](https://github.com/discordeno/discordeno) library and [website](https://discordeno.mod.land/)
-* the Discordeno [Discord server](https://discord.gg/ddeno) so you can ask me for help
-* Cache layer for Discordeno https://github.com/discordeno/discordeno/blob/main/plugins/cache
-* Bot using the Oasis framework (not released yet) https://github.com/yuzudev/akebi
+
+- the [Discordeno](https://github.com/discordeno/discordeno) library and [website](https://discordeno.mod.land/)
+- the Discordeno [Discord server](https://discord.gg/ddeno) so you can ask me for help
+- Cache layer for Discordeno https://github.com/discordeno/discordeno/blob/main/plugins/cache
+- Bot using the Oasis framework (not released yet) https://github.com/yuzudev/akebi
 
 ### TODO's:
-* adding more builders
-* make a CLI
+
+- adding more builders
+- make a CLI

@@ -1,6 +1,6 @@
-import { ApplicationCommandOptionTypes, ChannelTypes } from "../../deps.ts";
-import type { ApplicationCommandOption, ApplicationCommandOptionChoice } from "../../deps.ts";
-import "../../../reflect-metadata.ts";
+import { ApplicationCommandOptionTypes, ChannelTypes } from '../../deps.ts';
+import type { ApplicationCommandOption, ApplicationCommandOptionChoice } from '../../deps.ts';
+import '../../../reflect-metadata.ts';
 
 /**
  * Represents an option for a command
@@ -14,19 +14,18 @@ export function Argument(description: string, required = false): PropertyDecorat
         };
 
         // @ts-ignore: backwards compatibility with NodeJS
-        const dataType = Reflect.getMetadata("design:type", object, name);
+        const dataType = Reflect.getMetadata('design:type', object, name);
 
-        argument.type =
-            dataType === Boolean
-                ? ApplicationCommandOptionTypes.Boolean
-                : dataType === Number
-                ? ApplicationCommandOptionTypes.Number
-                : dataType === String
-                ? ApplicationCommandOptionTypes.String
-                : undefined;
+        argument.type = dataType === Boolean
+            ? ApplicationCommandOptionTypes.Boolean
+            : dataType === Number
+            ? ApplicationCommandOptionTypes.Number
+            : dataType === String
+            ? ApplicationCommandOptionTypes.String
+            : undefined;
 
         if (!argument.type) {
-            throw new Error("Error: type cannot be guessed");
+            throw new Error('Error: type cannot be guessed');
         }
 
         Object.defineProperty(object, name, { get: () => argument });
@@ -38,7 +37,7 @@ function genericOption(
     type: ApplicationCommandOptionTypes,
     description: string,
     required = false,
-    options?: Record<string, unknown>
+    options?: Record<string, unknown>,
 ): PropertyDecorator {
     return function (object, name) {
         const argument: Partial<ApplicationCommandOption> = {
@@ -57,7 +56,7 @@ Argument.String = function (
     description: string,
     required = false,
     autocomplete?: boolean,
-    choices?: ApplicationCommandOptionChoice
+    choices?: ApplicationCommandOptionChoice,
 ) {
     return genericOption(ApplicationCommandOptionTypes.String, description, required, { autocomplete, choices });
 };
@@ -67,7 +66,7 @@ Argument.Number = function (
     required = false,
     autocomplete?: boolean,
     minValue?: number,
-    maxValue?: number
+    maxValue?: number,
 ) {
     return genericOption(ApplicationCommandOptionTypes.Number, description, required, {
         autocomplete,
@@ -81,7 +80,7 @@ Argument.Integer = function (
     required = false,
     autocomplete?: boolean,
     minValue?: number,
-    maxValue?: number
+    maxValue?: number,
 ) {
     return genericOption(ApplicationCommandOptionTypes.Integer, description, required, {
         autocomplete,

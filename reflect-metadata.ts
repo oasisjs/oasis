@@ -1,4 +1,4 @@
-import { Reflect as R } from "https://deno.land/x/deno_reflect@v0.1.13/mod.ts"
+import { Reflect as R } from 'https://deno.land/x/deno_reflect@v0.1.13/mod.ts';
 
 // @ts-ignore: compatibility
 window.Reflect = R;
@@ -8,7 +8,12 @@ window.Reflect = R;
  */
 declare namespace Reflect {
     function decorate(decorators: ClassDecorator[], target: Function): Function;
-    function decorate(decorators: (PropertyDecorator | MethodDecorator)[], target: Object, targetKey: string | symbol, descriptor?: PropertyDescriptor): PropertyDescriptor;
+    function decorate(
+        decorators: (PropertyDecorator | MethodDecorator)[],
+        target: Object,
+        targetKey: string | symbol,
+        descriptor?: PropertyDescriptor,
+    ): PropertyDescriptor;
     function metadata(metadataKey: any, metadataValue: any): {
         (target: Function): void;
         (target: Object, targetKey: string | symbol): void;

@@ -1,4 +1,4 @@
-import type * as Discord from "../../deps.ts";
+import type * as Discord from '../../deps.ts';
 
 export enum Limits {
     Title = 256,
@@ -21,27 +21,27 @@ export class MessageEmbed {
     }
 
     public equal(embed: MessageEmbed | Discord.Embed) {
-        if ("embed" in embed) {
+        if ('embed' in embed) {
             return Object.is(this.embed, embed.embed);
         }
         return Object.is(this.embed, embed);
     }
 
-    public color(color: number | [number, number, number] | `#${string}` | "random") {
+    public color(color: number | [number, number, number] | `#${string}` | 'random') {
         if (Array.isArray(color)) {
             color = (color[0] << 16) + (color[1] << 8) + color[2];
         }
-        if (typeof color === "string") {
-            if (color === "random") {
+        if (typeof color === 'string') {
+            if (color === 'random') {
                 this.embed.color = Math.floor(Math.random() * (0xffffff + 1));
                 return this;
             } else {
-                this.embed.color = parseInt(color.replace("#", ""), 16);
+                this.embed.color = parseInt(color.replace('#', ''), 16);
                 return this;
             }
         }
-        if (color < 0 || color > 0xffffff) throw new RangeError("COLOR_RANGE");
-        if (isNaN(color)) throw new TypeError("COLOR_CONVERT");
+        if (color < 0 || color > 0xffffff) throw new RangeError('COLOR_RANGE');
+        if (isNaN(color)) throw new TypeError('COLOR_CONVERT');
 
         this.embed.color = color;
         return this;
@@ -53,15 +53,15 @@ export class MessageEmbed {
         }
 
         if (name.length > Limits.FieldName) {
-            throw new TypeError("Embed field name limit exceeded");
+            throw new TypeError('Embed field name limit exceeded');
         }
 
         if (value.length > Limits.FieldValue) {
-            throw new TypeError("Embed field value limit exceeded");
+            throw new TypeError('Embed field value limit exceeded');
         }
 
         if (this.embed.fields.length > Limits.Fields) {
-            throw new TypeError("Embed fields limit exceeded");
+            throw new TypeError('Embed fields limit exceeded');
         }
 
         this.embed.fields.push({ name, value, inline });
@@ -72,7 +72,7 @@ export class MessageEmbed {
 
     public fields(fields: { name: string; value: string; inline?: boolean }[]) {
         if (this.embed.fields!.length > Limits.Fields) {
-            throw new TypeError("Embed fields limit exceeded");
+            throw new TypeError('Embed fields limit exceeded');
         }
 
         for (const { name, value, inline } of fields) {
@@ -83,7 +83,7 @@ export class MessageEmbed {
     }
 
     public blank(inline = true) {
-        return this.field("\u200B", "\u200B", inline);
+        return this.field('\u200B', '\u200B', inline);
     }
 
     public attachment(attachment: Discord.FileContent) {
@@ -96,12 +96,11 @@ export class MessageEmbed {
     }
 
     public timestamp(timestamp: number | Date) {
-        this.embed.timestamp =
-            timestamp instanceof Date
-                ? timestamp.getMilliseconds() / 1000
-                : typeof timestamp === "number"
-                ? timestamp
-                : timestamp;
+        this.embed.timestamp = timestamp instanceof Date
+            ? timestamp.getMilliseconds() / 1000
+            : typeof timestamp === 'number'
+            ? timestamp
+            : timestamp;
 
         return this;
     }
@@ -123,7 +122,7 @@ export class MessageEmbed {
 
     public title(title: string) {
         if (title.length > Limits.Title) {
-            throw new TypeError("Embed title limit exceeded");
+            throw new TypeError('Embed title limit exceeded');
         }
 
         this.embed.title = title;
@@ -134,7 +133,7 @@ export class MessageEmbed {
 
     public footer(text: string, iconUrl?: string, proxyIconUrl?: string) {
         if (text.length > Limits.FooterText) {
-            throw new TypeError("Embed footer text limit exceeded");
+            throw new TypeError('Embed footer text limit exceeded');
         }
 
         this.embed.footer = { text, iconUrl, proxyIconUrl };
@@ -145,7 +144,7 @@ export class MessageEmbed {
 
     public author(name: string, iconUrl?: string, url?: string, proxyIconUrl?: string) {
         if (name.length > Limits.AuthorName) {
-            throw new TypeError("Embed author name limit exceeded");
+            throw new TypeError('Embed author name limit exceeded');
         }
 
         this.embed.author = { name, iconUrl, url, proxyIconUrl };
@@ -166,7 +165,7 @@ export class MessageEmbed {
 
     public description(description: string) {
         if (description.length > Limits.Description) {
-            throw new TypeError("Embed description limit exceeded");
+            throw new TypeError('Embed description limit exceeded');
         }
 
         this.embed.description = description;

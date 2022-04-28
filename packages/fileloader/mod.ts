@@ -61,14 +61,14 @@ export namespace TemporaryFileloader {
     export async function fileLoader() {
         const timestamp = Date.now();
 
-        Deno.mkdirSync("temp", { recursive: true });
-        Deno.createSync("temp/fileloader.ts");
+        Deno.mkdirSync('temp', { recursive: true });
+        Deno.createSync('temp/fileloader.ts');
         Deno.writeTextFileSync(
-            "temp/fileloader.ts",
+            'temp/fileloader.ts',
             [...imports]
-                .map(im => im(timestamp))
-                .join("\n")
-                .replaceAll("\\", "/")
+                .map((im) => im(timestamp))
+                .join('\n')
+                .replaceAll('\\', '/'),
         );
 
         await import(`file:///${Deno.cwd()}/temp/fileloader.ts`);

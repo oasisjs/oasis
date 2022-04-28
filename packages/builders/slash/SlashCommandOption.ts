@@ -1,10 +1,6 @@
-import { ApplicationCommandOptionTypes } from "../../deps.ts";
-import { mix } from "../mixer/mod.ts";
-import type {
-    ApplicationCommandOption,
-    ApplicationCommandOptionChoice,
-    ChannelTypes,
-} from "../../deps.ts";
+import { ApplicationCommandOptionTypes } from '../../deps.ts';
+import { mix } from '../mixer/mod.ts';
+import type { ApplicationCommandOption, ApplicationCommandOptionChoice, ChannelTypes } from '../../deps.ts';
 
 export class ChoiceBuilder {
     public name?: string;
@@ -21,8 +17,8 @@ export class ChoiceBuilder {
     }
 
     public toJSON(): ApplicationCommandOptionChoice {
-        if (!this.name) throw new TypeError("Property 'name' is required");
-        if (!this.value) throw new TypeError("Property 'value' is required");
+        if (!this.name) throw new TypeError('Property \'name\' is required');
+        if (!this.value) throw new TypeError('Property \'value\' is required');
 
         return {
             name: this.name,
@@ -58,10 +54,10 @@ export class OptionBuilder {
     }
 
     public toJSON(): ApplicationCommandOption {
-        if (!this.type) throw new TypeError("Property 'type' is required");
-        if (!this.name) throw new TypeError("Property 'name' is required");
+        if (!this.type) throw new TypeError('Property \'type\' is required');
+        if (!this.name) throw new TypeError('Property \'name\' is required');
         if (!this.description) {
-            throw new TypeError("Property 'description' is required");
+            throw new TypeError('Property \'description\' is required');
         }
 
         const applicationCommandOption: ApplicationCommandOption = {
@@ -83,7 +79,7 @@ export class OptionBuilderLimitedValues extends OptionBuilder {
     public constructor(
         public type?: ApplicationCommandOptionTypes.Integer | ApplicationCommandOptionTypes.Number,
         public name?: string,
-        public description?: string
+        public description?: string,
     ) {
         super();
         this.type = type;
@@ -109,7 +105,7 @@ export class OptionBuilderLimitedValues extends OptionBuilder {
     public override toJSON(): ApplicationCommandOption {
         return {
             ...super.toJSON(),
-            choices: this.choices?.map(c => c.toJSON()) ?? [],
+            choices: this.choices?.map((c) => c.toJSON()) ?? [],
             minValue: this.minValue,
             maxValue: this.maxValue,
         };
@@ -121,7 +117,7 @@ export class OptionBuilderString extends OptionBuilder {
     public constructor(
         public type?: ApplicationCommandOptionTypes.String,
         public name?: string,
-        public description?: string
+        public description?: string,
     ) {
         super();
         this.type = type;
@@ -140,7 +136,7 @@ export class OptionBuilderString extends OptionBuilder {
     public override toJSON(): ApplicationCommandOption {
         return {
             ...super.toJSON(),
-            choices: this.choices?.map(c => c.toJSON()) ?? [],
+            choices: this.choices?.map((c) => c.toJSON()) ?? [],
         };
     }
 }
@@ -150,7 +146,7 @@ export class OptionBuilderChannel extends OptionBuilder {
     public constructor(
         public type?: ApplicationCommandOptionTypes.Channel,
         public name?: string,
-        public description?: string
+        public description?: string,
     ) {
         super();
         this.type = type;
@@ -178,14 +174,15 @@ export interface OptionBuilderLike {
 }
 
 export class OptionBased {
-    public options?: (
-        | OptionBuilder[]
-        | OptionBuilderString[]
-        | OptionBuilderLimitedValues[]
-        | OptionBuilderNested[]
-        | OptionBuilderChannel[]
-    ) &
-        OptionBuilderLike[];
+    public options?:
+        & (
+            | OptionBuilder[]
+            | OptionBuilderString[]
+            | OptionBuilderLimitedValues[]
+            | OptionBuilderNested[]
+            | OptionBuilderChannel[]
+        )
+        & OptionBuilderLike[];
 
     public addOption(fn: (option: OptionBuilder) => OptionBuilder, type?: ApplicationCommandOptionTypes) {
         const option = fn(new OptionBuilder(type));
@@ -265,7 +262,7 @@ export class OptionBuilderNested {
     public constructor(
         public type?: ApplicationCommandOptionTypes.SubCommand | ApplicationCommandOptionTypes.SubCommandGroup,
         public name?: string,
-        public description?: string
+        public description?: string,
     ) {
         this.type = type;
         this.name = name;
@@ -274,17 +271,17 @@ export class OptionBuilderNested {
 
     // TODO: this will get overwritten by the mixer
     public toJSON(): ApplicationCommandOption {
-        if (!this.type) throw new TypeError("Property 'type' is required");
-        if (!this.name) throw new TypeError("Property 'name' is required");
+        if (!this.type) throw new TypeError('Property \'type\' is required');
+        if (!this.name) throw new TypeError('Property \'name\' is required');
         if (!this.description) {
-            throw new TypeError("Property 'description' is required");
+            throw new TypeError('Property \'description\' is required');
         }
 
         return {
             type: this.type,
             name: this.name,
             description: this.description,
-            options: this.options?.map(o => o.toJSON()) ?? [],
+            options: this.options?.map((o) => o.toJSON()) ?? [],
             required: this.required ? true : false,
         };
     }

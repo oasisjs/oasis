@@ -1,4 +1,4 @@
-import type { Interaction, Message, User } from "../../deps.ts";
+import type { Interaction, Message, User } from '../../deps.ts';
 
 // BASE
 
@@ -32,7 +32,7 @@ export interface ButtonCollectorOptions extends BaseCollectorOptions {
 
 export interface ButtonCollectorReturn {
     customId: string;
-    interaction: Omit<Interaction, "user">;
+    interaction: Omit<Interaction, 'user'>;
     user?: User;
 }
 
