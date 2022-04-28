@@ -28,7 +28,7 @@ class EightBall {
 
     // declare string option 'question' as required
     @Argument('The question', true)
-    declare question: string;
+    declare question: string; // it works without 'declare' if you compile down to ES2020
 
     // get all options
     get options(): unknown[] {
@@ -37,11 +37,11 @@ class EightBall {
 
     // run the command
     async run(ctx: Context) {
-        const question = ctx.getString(0) ?? ctx.getString('question');
+        const question = ctx.options.getString(0) ?? ctx.options.getString('question');
         const response = responses[Math.floor(Math.random() * responses.length)];
 
         if (question) {
-        	await ctx.respond({ content: `Question: ${question} | Reply: ${response}` });
+        	await ctx.respond({ with: `Question: ${question} | Reply: ${response}` });
         }
     }
 }

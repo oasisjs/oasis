@@ -2,6 +2,9 @@ import { ApplicationCommandOptionTypes, ChannelTypes } from "../../deps.ts";
 import type { ApplicationCommandOption, ApplicationCommandOptionChoice } from "../../deps.ts";
 import "../../../reflect-metadata.ts";
 
+/**
+ * Represents an option for a command
+ */
 export function Argument(description: string, required = false): PropertyDecorator {
     return function (object, name) {
         const argument: Partial<ApplicationCommandOption> = {
@@ -10,7 +13,7 @@ export function Argument(description: string, required = false): PropertyDecorat
             required,
         };
 
-        // @ts-ignore
+        // @ts-ignore: backwards compatibility with NodeJS
         const dataType = Reflect.getMetadata("design:type", object, name);
 
         argument.type =
@@ -35,7 +38,7 @@ function genericOption(
     type: ApplicationCommandOptionTypes,
     description: string,
     required = false,
-    options?: object
+    options?: Record<string, unknown>
 ): PropertyDecorator {
     return function (object, name) {
         const argument: Partial<ApplicationCommandOption> = {
