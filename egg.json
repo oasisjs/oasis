@@ -4,7 +4,7 @@
   "entry": "./mod.ts",
   "description": "A bleeding-edge object oriented Discordeno framework",
   "homepage": "https://github.com/yuzudev/oasis",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "releaseType": "patch",
   "unstable": false,
   "unlisted": false,
