@@ -5,7 +5,7 @@
     "description": "A bleeding-edge object oriented Discordeno framework",
     "homepage": "https://github.com/yuzudev/oasis",
     "version": "1.2.0",
-    "releaseType": "patch",
+    "releaseType": "minor",
     "unstable": false,
     "unlisted": false,
     "files": ["./packages/**/*", "./mod.ts", "./reflect-metadata.ts", "LICENSE", "README.md"],

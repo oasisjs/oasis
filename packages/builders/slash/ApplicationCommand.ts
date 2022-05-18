@@ -1,7 +1,7 @@
 import { ApplicationCommandTypes } from '../../deps.ts';
 import { OptionBased } from './SlashCommandOption.ts';
 import { mix } from '../mixer/mod.ts';
-import type { CreateApplicationCommand } from '../../deps.ts';
+import type { CreateApplicationCommand, Localization, PermissionStrings } from '../../deps.ts';
 
 export abstract class ApplicationCommandBuilder implements CreateApplicationCommand {
     protected constructor(
@@ -10,12 +10,19 @@ export abstract class ApplicationCommandBuilder implements CreateApplicationComm
         public name = '',
         public description = '',
         // non-required
-        public defaultPermission?: boolean,
+        public defaultMemberPermissions?: PermissionStrings[],
+        // etc
+        public nameLocalizations?: Localization,
+        public descriptionLocalizations?: Localization,
+        public dmPermission = true,
     ) {
         this.type = type;
         this.name = name;
         this.description = description;
-        this.defaultPermission = defaultPermission;
+        this.defaultMemberPermissions = defaultMemberPermissions;
+        this.nameLocalizations = nameLocalizations;
+        this.descriptionLocalizations = descriptionLocalizations;
+        this.dmPermission = dmPermission;
     }
 
     public setType(type: ApplicationCommandTypes) {
@@ -28,6 +35,22 @@ export abstract class ApplicationCommandBuilder implements CreateApplicationComm
 
     public setDescription(description: string) {
         return (this.description = description), this;
+    }
+
+    public setDefaultMemberPermission(perm: PermissionStrings[]) {
+        return (this.defaultMemberPermissions = perm), this;
+    }
+
+    public setNameLocalizations(l: Localization) {
+        return (this.nameLocalizations = l), this;
+    }
+
+    public setDescriptionLocalizations(l: Localization) {
+        return (this.descriptionLocalizations = l), this;
+    }
+
+    public setDmPermission(perm: boolean) {
+        return (this.dmPermission = perm), this;
     }
 }
 
@@ -55,9 +78,6 @@ export class MessageApplicationCommandBuilder {
     }
 }
 
-// TODO
-// export class UserApplicationCommandBuilder extends ApplicationCommandBuilder {}
-
 @mix(ApplicationCommandBuilder, OptionBased)
 export class ChatInputApplicationCommandBuilder {
     public type: ApplicationCommandTypes.ChatInput = ApplicationCommandTypes.ChatInput;
@@ -74,7 +94,10 @@ export class ChatInputApplicationCommandBuilder {
             name: this.name,
             description: this.description,
             options: this.options?.map((o) => o.toJSON()) ?? [],
-            defaultPermission: this.defaultPermission,
+            defaultMemberPermissions: this.defaultMemberPermissions,
+            nameLocalizations: this.nameLocalizations,
+            descriptionLocalizations: this.descriptionLocalizations,
+            dmPermission: this.dmPermission,
         };
     }
 }

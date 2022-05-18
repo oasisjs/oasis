@@ -71,7 +71,7 @@ await build({
     mappings: {
         'https://deno.land/x/discordeno@13.0.0-rc35/mod.ts': {
             name: 'discordeno',
-            version: '13.0.0-rc35',
+            version: '13.0.0-rc39',
         },
         './reflect-metadata.ts': {
             name: 'reflect-metadata',
