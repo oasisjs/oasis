@@ -1,0 +1,10 @@
+{
+    "scripts": {
+        "check": "deno check mod.ts",
+        "compile": "deno run dnt.ts 1.4.0",
+        "publish": "npm publish npm",
+        "format": "deno fmt",
+        "fmt": "deno fmt",
+        "lint": "deno lint"
+    }
+}

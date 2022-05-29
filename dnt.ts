@@ -1,4 +1,4 @@
-import { build } from 'https://deno.land/x/dnt@0.17.0/mod.ts';
+import { build } from 'https://deno.land/x/dnt@0.23.0/mod.ts';
 
 await Deno.remove('npm', { recursive: true }).catch((_) => {});
 
@@ -69,9 +69,9 @@ await build({
         },
     ],
     mappings: {
-        'https://deno.land/x/discordeno@13.0.0-rc35/mod.ts': {
+        'https://deno.land/x/discordeno@13.0.0-rc45/mod.ts': {
             name: 'discordeno',
-            version: '13.0.0-rc39',
+            version: '13.0.0-rc45',
         },
         './reflect-metadata.ts': {
             name: 'reflect-metadata',
