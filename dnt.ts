@@ -42,6 +42,7 @@ await build({
                 'collectors': ['./types/packages/collectors/mod.d.ts'],
                 'framework': ['./types/packages/logger/mod.d.ts'],
                 'misc': ['./types/packages/misc/mod.d.ts'],
+                'contrib': ['/types/packages/contrib/mod.d.ts']
             },
         },
     },
@@ -67,6 +68,10 @@ await build({
             name: './misc',
             path: 'packages/misc/mod.ts',
         },
+        {
+            name: './contrib',
+            path: 'packages/contrib/mod.ts',
+        }
     ],
     mappings: {
         'https://deno.land/x/discordeno@13.0.0-rc45/mod.ts': {

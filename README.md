@@ -1,7 +1,8 @@
 # Oasis
 
 Bleeding edge object oriented Discordeno framework for creating bots Oasis is minimal by design and it does not ship any
-cache layer so you can implement your own Oasis is written Fully in typescript
+cache layer so you can implement your own
+> Oasis is written Fully in typescript
 
 ## Efficient & Cross-platform
 
@@ -37,7 +38,6 @@ class EightBall {
 
     readonly aliases = ['ball'];
 
-    // declare string option 'question' as required
     @Argument('The question', true)
     declare question: string; // it works without 'declare' if you compile down to ES2020
 
@@ -46,7 +46,6 @@ class EightBall {
         return [this.question]; // first argument in the command
     }
 
-    // run the command
     async run(ctx: Context) {
         const question = ctx.options.getString(0) ?? ctx.options.getString('question');
         const response = responses[Math.floor(Math.random() * responses.length)];
@@ -91,7 +90,7 @@ bot.events.interactionCreate = (bot, interaction) => {
 
 bot.events.messageCreate = (bot, message) => {
     if (message.isBot) {
-        // if is bot forward the event
+        // forward the event
         messageCreate(bot, message);
         return;
     }
@@ -104,12 +103,10 @@ bot.events.messageCreate = (bot, message) => {
         return;
     }
 
-    // deno-fmt-ignore
     const [command] = commands.get(commandName) ?? commands.get(commandAliases.get(commandName) ?? '') ?? [];
 
-    // check if command exists
     if (command) {
-        command.run(ctx); // do not await so we can run commands "en paralelo"
+        command.run(ctx);
     }
 
     messageCreate(bot, message);
@@ -118,7 +115,7 @@ bot.events.messageCreate = (bot, message) => {
 
 ## Installation
 
-Deno: `deno cache https://deno.land/x/oasis@1.0.0/mod.ts` Node: `npm install oasis-framework`
+Deno: `deno cache https://deno.land/x/oasis/mod.ts` Node: `npm install oasis-framework`
 
 ## Useful resources
 
@@ -131,3 +128,17 @@ Deno: `deno cache https://deno.land/x/oasis@1.0.0/mod.ts` Node: `npm install oas
 
 - adding more builders
 - make a CLI
+
+### Changelog:
+
+#### 1.4.X
+- remove the need for an id when instantiating a bot
+- add the OasisClient class
+- latest bleeding edge version of Discordeno (rc45)
+
+#### 1.3.X
+- remove dead code
+- latest bleeding edge version of Discordeno (rc39)
+
+#### 1.2.X
+- remove the logger plugin
