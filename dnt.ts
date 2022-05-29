@@ -42,7 +42,7 @@ await build({
                 'collectors': ['./types/packages/collectors/mod.d.ts'],
                 'framework': ['./types/packages/logger/mod.d.ts'],
                 'misc': ['./types/packages/misc/mod.d.ts'],
-                'contrib': ['/types/packages/contrib/mod.d.ts']
+                'contrib': ['./types/packages/contrib/mod.d.ts']
             },
         },
     },
