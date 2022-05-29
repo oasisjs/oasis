@@ -6,17 +6,17 @@ import { InteractionResponseTypes } from '../../deps.ts';
  * Context class for interactions
  */
 export class InteractionContext<T extends Bot = Bot> {
-    public bot: T;
-    public interaction: Interaction;
+    bot: T;
+    interaction: Interaction;
 
-    public constructor(bot: T, interaction: Interaction) {
+    constructor(bot: T, interaction: Interaction) {
         this.interaction = interaction;
         this.bot = bot;
 
         Object.defineProperty(this, 'bot', { enumerable: false, writable: false, value: bot });
     }
 
-    public async respond(data: CreateCommand) {
+    async respond(data: CreateCommand) {
         const parsed: InteractionApplicationCommandCallbackData = {
             // pass
         };

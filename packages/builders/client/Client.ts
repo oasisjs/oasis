@@ -1,22 +1,21 @@
-import type { Bot, EventHandlers } from '../../deps.ts';
+import type { Bot, CreateBotOptions, EventHandlers } from '../../deps.ts';
 import { createBot, GatewayIntents, getBotIdFromToken, startBot } from '../../deps.ts';
 
 export class OasisClient {
-    readonly bot: Bot;
+    #options: CreateBotOptions;
 
     constructor(events: Partial<EventHandlers> = {}) {
-        this.bot = createBot({
+        this.#options = {
             intents: 0,
-            botId: 0n,
             token: '',
             events,
-        });
+        };
     }
 
     setToken(token: string) {
         // automatically set the id
         return (
-            this.bot.token = token, this.bot.id = getBotIdFromToken(token), this
+            this.#options.token = token, this.#options.botId = getBotIdFromToken(token), this
         );
     }
 
@@ -24,14 +23,14 @@ export class OasisClient {
      * Optionally set the bot's id
      */
     setId(id: bigint) {
-        return this.bot.id = id, this;
+        return this.#options.botId = id, this;
     }
 
     /**
      * Adds intents to the bot's instance
      */
     addIntent(intents: GatewayIntents) {
-        return this.bot.intents |= intents, this;
+        return this.#options.intents! |= intents, this;
     }
 
     /**
@@ -45,7 +44,12 @@ export class OasisClient {
     /**
      * Starts the bot
      */
-    start(token = this.bot.token): Promise<void> {
-        return startBot(this.bot);
+    async start(): Promise<Bot> {
+        const bot = createBot(this.#options);
+
+        await startBot(bot);
+
+        // finally forward bot
+        return bot;
     }
 }

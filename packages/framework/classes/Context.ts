@@ -3,7 +3,7 @@ import type { OasisCommandInteractionOption } from './CommandInteractionOptionRe
 import type { CreateCommand } from './CreateCommand.ts';
 import {
     CommandInteractionOptionResolver,
-    transformInteractionDataOption,
+    transformOasisInteractionDataOption,
 } from './CommandInteractionOptionResolver.ts';
 import { MessageContext } from './MessageContext.ts';
 import { InteractionContext } from './InteractionContext.ts';
@@ -24,41 +24,41 @@ export interface ContextFunctions {
  * The Oasis Context class
  */
 export class Context<T extends Bot = Bot> implements ContextFunctions {
-    public readonly prefix: string;
+    readonly prefix: string;
 
     /**
      * The bot can be modified with a middleware before passing it to the Context class
      * So Context.bot is generic but readonly
      */
-    public readonly bot: T;
+    readonly bot: T;
 
     /**
      * The guild the command has been triggered on
      */
-    public readonly guildId?: bigint;
+    readonly guildId?: bigint;
 
     /**
      * Whoever ran the command
      */
-    public readonly userId?: bigint;
+    readonly userId?: bigint;
 
     /**
      * If the one who ran the command is a bot
      */
-    public readonly isBot: boolean;
+    readonly isBot: boolean;
 
     /**
      * The channel the command has been triggered on
      */
-    public readonly channelId?: bigint;
+    readonly channelId?: bigint;
 
     /**
      * The options handler with utility methods
      */
-    public readonly options: CommandInteractionOptionResolver;
+    readonly options: CommandInteractionOptionResolver;
 
-    public readonly messageContext?: MessageContext;
-    public readonly interactionContext?: InteractionContext;
+    readonly messageContext?: MessageContext;
+    readonly interactionContext?: InteractionContext;
 
     constructor(prefix: string, bot: T, message?: Message, interaction?: Interaction) {
         if (!interaction && !message) {
@@ -91,13 +91,13 @@ export class Context<T extends Bot = Bot> implements ContextFunctions {
     /**
      * The raw options from the interaction
      */
-    public get rawOptions(): OasisCommandInteractionOption[] {
+    get rawOptions(): OasisCommandInteractionOption[] {
         if (this.messageContext) {
             return MessageContext.getOptionsFromMessage(this.prefix, this.messageContext.message) ?? [];
         }
 
         if (this.interactionContext) {
-            return this.interactionContext.interaction.data?.options?.map(transformInteractionDataOption) ?? [];
+            return this.interactionContext.interaction.data?.options?.map(transformOasisInteractionDataOption) ?? [];
         }
 
         return [];
@@ -106,9 +106,9 @@ export class Context<T extends Bot = Bot> implements ContextFunctions {
     /**
      * get the name of the command that has been triggered
      */
-    public getCommandName(force: true): string;
-    public getCommandName(force?: boolean): string | undefined;
-    public getCommandName(force?: boolean) {
+    getCommandName(force: true): string;
+    getCommandName(force?: boolean): string | undefined;
+    getCommandName(force?: boolean) {
         if (this.messageContext) {
             const c = MessageContext.parseArgs(this.prefix, this.messageContext.message);
 
@@ -131,7 +131,7 @@ export class Context<T extends Bot = Bot> implements ContextFunctions {
     /**
      * Defer the reply, returns nothing
      */
-    public defer() {
+    defer() {
         return this.respond({
             type: InteractionResponseTypes.DeferredChannelMessageWithSource,
         }) as Promise<undefined>;
@@ -140,7 +140,7 @@ export class Context<T extends Bot = Bot> implements ContextFunctions {
     /**
      * Responds to the user
      */
-    public respond(data: CreateCommand) {
+    respond(data: CreateCommand) {
         if (this.messageContext) {
             return this.messageContext.respond(data);
         }
@@ -155,7 +155,7 @@ export class Context<T extends Bot = Bot> implements ContextFunctions {
     /**
      * Responds privately to the user
      */
-    public async respondPrivately(data: CreateCommand & { time?: number }) {
+    async respondPrivately(data: CreateCommand & { time?: number }) {
         if (this.messageContext) {
             const m = await this.messageContext.respond(data);
 

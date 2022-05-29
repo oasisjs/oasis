@@ -2,17 +2,17 @@ import type { Bot, CreateMessage, Message } from '../../deps.ts';
 import type { OasisCommandInteractionOption } from './CommandInteractionOptionResolver.ts';
 import type { CreateCommand } from './CreateCommand.ts';
 import { ApplicationCommandOptionTypes } from '../../deps.ts';
-import { transformInteractionDataOption } from './CommandInteractionOptionResolver.ts';
+import { transformOasisInteractionDataOption } from './CommandInteractionOptionResolver.ts';
 
 /**
  * Context class for messages
  */
 export class MessageContext<T extends Bot = Bot> {
-    public bot: T;
-    public message: Message;
-    public prefix: string;
+    bot: T;
+    message: Message;
+    prefix: string;
 
-    public constructor(bot: T, message: Message, prefix: string) {
+    constructor(bot: T, message: Message, prefix: string) {
         this.prefix = prefix;
         this.message = message;
         this.bot = bot;
@@ -20,7 +20,7 @@ export class MessageContext<T extends Bot = Bot> {
         Object.defineProperty(this, 'bot', { enumerable: false, writable: false, value: bot });
     }
 
-    public async respond(data: CreateCommand) {
+    async respond(data: CreateCommand) {
         const parsed: CreateMessage = {
             // pass
         };
@@ -48,7 +48,7 @@ export class MessageContext<T extends Bot = Bot> {
         return m;
     }
 
-    public async reply(options: CreateCommand): Promise<Message | undefined> {
+    async reply(options: CreateCommand): Promise<Message | undefined> {
         const m = await this.respond(
             Object.assign(options, {
                 reference: {
@@ -62,11 +62,11 @@ export class MessageContext<T extends Bot = Bot> {
         return m;
     }
 
-    public static transformArgs(args: string[]): OasisCommandInteractionOption[] {
+    static transformArgs(args: string[]): OasisCommandInteractionOption[] {
         return args.map((arg, i) => {
             // possibly a mention
             if (/\d{17,19}/g.test(arg)) {
-                return transformInteractionDataOption({
+                return transformOasisInteractionDataOption({
                     name: i.toString(),
                     type: ApplicationCommandOptionTypes.Mentionable,
                     value: String(arg.match(/\d{17,19}/g)?.[0]),
@@ -78,13 +78,13 @@ export class MessageContext<T extends Bot = Bot> {
 
             // if it's not a number, it's a string
             if (isNaN(num)) {
-                return transformInteractionDataOption({
+                return transformOasisInteractionDataOption({
                     name: i.toString(),
                     type: ApplicationCommandOptionTypes.String,
                     value: arg,
                 });
             } else {
-                return transformInteractionDataOption({
+                return transformOasisInteractionDataOption({
                     name: i.toString(),
                     type: ApplicationCommandOptionTypes.Number,
                     value: num,
@@ -93,7 +93,7 @@ export class MessageContext<T extends Bot = Bot> {
         });
     }
 
-    public static parseArgs(prefix: string, message: Message): [string, string[]] | undefined {
+    static parseArgs(prefix: string, message: Message): [string, string[]] | undefined {
         const args = message.content.slice(prefix.length).trim().split(/ +/gm);
         const name = args.shift()?.toLowerCase();
 
@@ -108,7 +108,7 @@ export class MessageContext<T extends Bot = Bot> {
         return [name, args];
     }
 
-    public static getOptionsFromMessage(prefix: string, message: Message): OasisCommandInteractionOption[] | undefined {
+    static getOptionsFromMessage(prefix: string, message: Message): OasisCommandInteractionOption[] | undefined {
         const c = MessageContext.parseArgs(prefix, message);
         const a = MessageContext.transformArgs(c?.[1] ?? []);
 

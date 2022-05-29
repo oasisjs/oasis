@@ -1,7 +1,7 @@
 import type { Bot } from '../deps.ts';
 import { commands, commandAliases, Context } from '../framework/mod.ts';
 
-export function commandContextMiddleware(bot: Bot, prefix: string) {
+export const enableCommandContext = (prefix: string) => (bot: Bot) => {
 	const { interactionCreate, messageCreate } = bot.events;
 
 	bot.events.interactionCreate = (bot, interaction) => {

@@ -1,6 +1,8 @@
 # npm package
-# npm/
+npm/
 
 # node modules
 node_modules/
 .vscode
+*.debug
+*.log

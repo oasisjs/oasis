@@ -10,7 +10,9 @@ export function claim<T extends Partial<BaseCommand>>(cmd: T, options?: unknown[
 
     commands.set(cmd.data?.name!, [cmd as BaseCommand, options]);
 
-    if (cmd.data) aliases?.forEach((a) => commandAliases.set(a, cmd.data!.name!));
+    if (cmd.data) {
+        aliases?.forEach((a) => commandAliases.set(a, cmd.data!.name!));
+    }
 }
 
 /**
