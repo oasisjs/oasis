@@ -1,27 +1,27 @@
 {
-  "$schema": "https://x.nest.land/eggs@0.3.10/src/schema.json",
-  "name": "oasis",
-  "entry": "./mod.ts",
-  "description": "A bleeding-edge object oriented Discordeno framework",
-  "homepage": "https://github.com/yuzudev/oasis",
-  "version": "1.4.1",
-  "releaseType": "patch",
-  "unstable": false,
-  "unlisted": false,
-  "files": [
-    "./packages/**/*",
-    "./mod.ts",
-    "./deps.ts",
-    "./reflect-metadata.ts",
-    "LICENSE",
-    "README.md"
-  ],
-  "ignore": [
-    "npm",
-    ".git"
-  ],
-  "checkFormat": false,
-  "checkTests": false,
-  "checkInstallation": false,
-  "check": true
+    "$schema": "https://x.nest.land/eggs@0.3.10/src/schema.json",
+    "name": "oasis",
+    "entry": "./mod.ts",
+    "description": "A bleeding-edge object oriented Discordeno framework",
+    "homepage": "https://github.com/yuzudev/oasis",
+    "version": "1.5.0",
+    "releaseType": "minor",
+    "unstable": false,
+    "unlisted": false,
+    "files": [
+        "./packages/**/*",
+        "./mod.ts",
+        "./deps.ts",
+        "./reflect-metadata.ts",
+        "LICENSE",
+        "README.md"
+    ],
+    "ignore": [
+        "npm",
+        ".git"
+    ],
+    "checkFormat": false,
+    "checkTests": false,
+    "checkInstallation": false,
+    "check": true
 }

@@ -1,11 +1,15 @@
 import type { Bot } from '../deps.ts';
 import { commandAliases, commands, Context } from '../framework/mod.ts';
 
-export const enableCommandContext = (prefix: string) =>
+type Callback = (guildId: bigint | undefined) => Promise<string>;
+
+export const enableCommandContextWithCustomPrefix = (prefixFn: Callback) =>
     (bot: Bot) => {
         const { interactionCreate, messageCreate } = bot.events;
 
-        bot.events.interactionCreate = (bot, interaction) => {
+        bot.events.interactionCreate = async (bot, interaction) => {
+            const prefix = await prefixFn(interaction.guildId);
+
             if (interaction.user.toggles.bot) {
                 interactionCreate(bot, interaction);
                 return;
@@ -27,7 +31,9 @@ export const enableCommandContext = (prefix: string) =>
             interactionCreate(bot, interaction);
         };
 
-        bot.events.messageCreate = (bot, message) => {
+        bot.events.messageCreate = async (bot, message) => {
+            const prefix = await prefixFn(message.guildId);
+
             if (message.isBot) {
                 messageCreate(bot, message);
                 return;

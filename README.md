@@ -2,6 +2,7 @@
 
 Bleeding edge object oriented Discordeno framework for creating bots Oasis is minimal by design and it does not ship any
 cache layer so you can implement your own
+
 > Oasis is written Fully in typescript
 
 ## Efficient & Cross-platform
@@ -132,13 +133,16 @@ Deno: `deno cache https://deno.land/x/oasis/mod.ts` Node: `npm install oasis-fra
 ### Changelog:
 
 #### 1.4.X
+
 - remove the need for an id when instantiating a bot
 - add the OasisClient class
 - latest bleeding edge version of Discordeno (rc45)
 
 #### 1.3.X
+
 - remove dead code
 - latest bleeding edge version of Discordeno (rc39)
 
 #### 1.2.X
+
 - remove the logger plugin
