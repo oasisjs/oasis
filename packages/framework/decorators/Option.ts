@@ -1,5 +1,9 @@
 import { ApplicationCommandOptionTypes, ChannelTypes } from '../../deps.ts';
 import type { ApplicationCommandOption, ApplicationCommandOptionChoice } from '../../deps.ts';
+import type { BaseSubCommand } from '../classes/Command.ts';
+
+import { subCommands } from '../cache.ts';
+
 import '../../../reflect-metadata.ts';
 
 /**
@@ -113,14 +117,27 @@ Argument.Attachment = function (description: string, required = false) {
     return genericOption(ApplicationCommandOptionTypes.Attachment, description, required);
 };
 
-Argument.SubCommand = function (description: string, required = false, instance: { options: unknown[] }) {
-    return genericOption(ApplicationCommandOptionTypes.SubCommand, description, required, {
-        options: instance.options,
-    });
+Argument.SubCommand = function (description: string, required = false, instance: BaseSubCommand): PropertyDecorator {
+    return function (object, name) {
+        /** instrospection */
+        subCommands.set(`${instance.parent}/${name.toString()}`, [instance, instance.options]);
+
+        const argument: Partial<ApplicationCommandOption> = {
+            name: name.toString(),
+            description,
+            required,
+            type: ApplicationCommandOptionTypes.SubCommand,
+            ...instance.options,
+        };
+
+        Object.defineProperty(object, name, { get: () => argument });
+    };
 };
 
 Argument.SubCommandGroup = function (description: string, required = false) {
     return genericOption(ApplicationCommandOptionTypes.SubCommandGroup, description, required);
 };
+
+export const Option = Argument;
 
 export default Argument;

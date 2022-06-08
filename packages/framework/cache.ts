@@ -1,10 +1,11 @@
 import type { EventHandlers } from '../deps.ts';
 
-import type { BaseCommand } from './classes/Command.ts';
+import type { BaseSubCommand, BaseCommand } from './classes/Command.ts';
 
 import { Collection } from '../deps.ts';
 
 export const commands = new Collection<string, [BaseCommand, unknown[]]>();
+export const subCommands = new Collection<string, [BaseSubCommand, unknown[]]>();
 export const commandAliases = new Collection<string, string>();
 
 type Values<T> = T[keyof T];

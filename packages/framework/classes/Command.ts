@@ -1,27 +1,23 @@
-import type { CreateApplicationCommand } from '../../deps.ts';
+import type { CreateApplicationCommand, ApplicationCommandOption } from '../../deps.ts';
 import type { Context } from './Context.ts';
-import { commandAliases, commands } from '../cache.ts';
 
 /**
- * Adds a command to the cache
- */
-export function claim<T extends Partial<BaseCommand>>(cmd: T, options?: unknown[], aliases?: string[]) {
-    options ??= [];
-
-    commands.set(cmd.data?.name!, [cmd as BaseCommand, options]);
-
-    if (cmd.data) {
-        aliases?.forEach((a) => commandAliases.set(a, cmd.data!.name!));
-    }
-}
-
-/**
- * The Oasis data class for representing commands
+ * The data class for representing commands
  */
 export declare class BaseCommand {
     readonly aliases: string[];
     readonly data: CreateApplicationCommand;
-    readonly options: unknown[];
+    readonly options: unknown[] | ApplicationCommandOption[];
 
-    run(ctx: Context): Promise<void>;
+    run(ctx: Context): Promise<unknown>;
+}
+
+/**
+ * The data class for representing commands
+ */
+export declare class BaseSubCommand {
+    readonly parent: string;
+    readonly options: unknown[] | ApplicationCommandOption[];
+
+    run(ctx: Context): Promise<unknown>;
 }
