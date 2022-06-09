@@ -1,9 +1,9 @@
 import type { Bot } from '../deps.ts';
-import { commandAliases, commands, Context } from '../framework/mod.ts';
+import { commandAliases, commands, subCommands, Context } from '../framework/mod.ts';
 
 type Callback = (guildId: bigint | undefined) => Promise<string>;
 
-export const enableCommandContextWithCustomPrefix = (prefixFn: Callback) => (bot: Bot) => {
+export const enableBiggerBrainCommandContext = (prefixFn: Callback) => (bot: Bot): Bot => {
     const { interactionCreate, messageCreate } = bot.events;
 
     bot.events.interactionCreate = async (bot, interaction) => {
@@ -17,8 +17,21 @@ export const enableCommandContextWithCustomPrefix = (prefixFn: Callback) => (bot
         const ctx = new Context(prefix, bot, undefined, interaction);
         const commandName = ctx.getCommandName();
 
+
         if (!commandName) {
             return;
+        }
+
+        /** important stuff */
+
+        const [subCommandName] = ctx.options.getSubcommand(false) ?? [];
+
+        if (subCommandName) {
+            const [subCommand] = subCommands.get(`${commandName}/${subCommandName}`) ?? [];
+
+            if (subCommand) {
+                subCommand.run(ctx);
+            }
         }
 
         const [command] = commands.get(commandName) ?? [];
@@ -43,6 +56,18 @@ export const enableCommandContextWithCustomPrefix = (prefixFn: Callback) => (bot
 
         if (!commandName) {
             return;
+        }
+
+        /** important stuff */
+
+        const [subCommandName] = ctx.options.getSubcommand(false) ?? [];
+
+        if (subCommandName) {
+            const [subCommand] = subCommands.get(`${commandName}/${subCommandName}`) ?? [];
+
+            if (subCommand) {
+                subCommand.run(ctx);
+            }
         }
 
         const [command] = commands.get(commandName) ?? commands.get(commandAliases.get(commandName) ?? '') ?? [];

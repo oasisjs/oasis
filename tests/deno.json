@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+	},
+    "fmt": {
+        "options": {
+            "useTabs": false,
+            "indentWidth": 4,
+            "lineWidth": 120,
+            "singleQuote": true
+        }
+    }
+}

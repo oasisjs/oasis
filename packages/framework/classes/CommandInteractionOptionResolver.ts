@@ -60,7 +60,6 @@ export interface OasisCommandInteractionOption extends Id<Omit<InteractionDataOp
  * @example const option = ctx.options.getStringOption("name");
  */
 export class CommandInteractionOptionResolver {
-    #options: OasisCommandInteractionOption[];
     #subcommand?: string;
     #group?: string;
 
@@ -68,15 +67,16 @@ export class CommandInteractionOptionResolver {
     resolved?: InteractionDataResolved;
 
     constructor(options?: InteractionDataOption[], resolved?: InteractionDataResolved) {
-        this.#options = options?.map(transformOasisInteractionDataOption) ?? [];
         this.hoistedOptions = options?.map(transformOasisInteractionDataOption) ?? [];
 
-        if (this.hoistedOptions[0]?.type === ApplicationCommandOptionTypes.SubCommand) {
+        // warning: black magic do not edit and thank djs authors
+
+        if (this.hoistedOptions[0]?.type === ApplicationCommandOptionTypes.SubCommandGroup) {
             this.#group = this.hoistedOptions[0].name;
             this.hoistedOptions = (this.hoistedOptions[0].options ?? []).map(transformOasisInteractionDataOption);
         }
 
-        if (this.hoistedOptions[0]?.type === ApplicationCommandOptionTypes.SubCommandGroup) {
+        if (this.hoistedOptions[0]?.type === ApplicationCommandOptionTypes.SubCommand) {
             this.#subcommand = this.hoistedOptions[0].name;
             this.hoistedOptions = (this.hoistedOptions[0].options ?? []).map(transformOasisInteractionDataOption);
         }
@@ -110,12 +110,12 @@ export class CommandInteractionOptionResolver {
     get(name: string | number, required: true): OasisCommandInteractionOption;
     get(name: string | number, required: boolean): OasisCommandInteractionOption | undefined;
     get(name: string | number, required?: boolean) {
-        const option = this.#options.find((o) =>
+        const option = this.hoistedOptions.find((o) =>
             typeof name === 'number' ? o.name === name.toString() : o.name === name
         );
 
         if (!option) {
-            if (required && name in this.#options.map((o) => o.name)) {
+            if (required && name in this.hoistedOptions.map((o) => o.name)) {
                 throw new TypeError('Option marked as required was undefined');
             }
 

@@ -5,16 +5,18 @@ import { commandAliases, commands } from '../cache.ts';
 export function Command<T extends { new (...args: unknown[]): Partial<BaseCommand> }>(target: T): void {
     const instance: Partial<BaseCommand> = new target();
 
-    claim(instance, instance.options, instance.aliases);
+    claim(instance, instance.options ?? [], instance.aliases);
 
-    function claim<T extends Partial<BaseCommand>>(cmd: T, options?: unknown[], aliases?: string[]) {
-        options ??= [];
+    function claim<T extends Partial<BaseCommand>>(cmd: T, options: unknown[], aliases?: string[]) {
+        // how to fool Deno, black magic do not edit
 
         commands.set(cmd.data?.name!, [cmd as BaseCommand, options]);
 
         if (cmd.data) {
             aliases?.forEach((a) => commandAliases.set(a, cmd.data!.name!));
         }
+
+        // end black magic
     }
 }
 

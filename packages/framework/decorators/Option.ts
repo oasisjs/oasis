@@ -117,7 +117,7 @@ Argument.Attachment = function (description: string, required = false) {
     return genericOption(ApplicationCommandOptionTypes.Attachment, description, required);
 };
 
-Argument.SubCommand = function (description: string, required = false, instance: BaseSubCommand): PropertyDecorator {
+Argument.SubCommand = function (description: string, instance: BaseSubCommand): PropertyDecorator {
     return function (object, name) {
         /** instrospection */
         subCommands.set(`${instance.parent}/${name.toString()}`, [instance, instance.options]);
@@ -125,9 +125,8 @@ Argument.SubCommand = function (description: string, required = false, instance:
         const argument: Partial<ApplicationCommandOption> = {
             name: name.toString(),
             description,
-            required,
             type: ApplicationCommandOptionTypes.SubCommand,
-            ...instance.options,
+            options: (instance.options ?? []) as ApplicationCommandOption[],
         };
 
         Object.defineProperty(object, name, { get: () => argument });
