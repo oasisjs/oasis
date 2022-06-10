@@ -12,6 +12,13 @@ export class OasisClient {
         };
     }
 
+    /**
+     * Defines an event
+     */
+    defineEvent(name: keyof EventHandlers, fn: EventHandlers[typeof name]) {
+        return this.#options.events[name] = fn, this;
+    }
+
     setToken(token: string): this {
         // automatically set the id
         return (
@@ -37,7 +44,7 @@ export class OasisClient {
      * Adds multiple intents via `setIntent``
      */
     addIntents(intents: Array<keyof typeof GatewayIntents> | Array<GatewayIntents>): this {
-        intents.map((intent) => typeof intent === 'string' ? GatewayIntents[intent] : intent).forEach(this.addIntent);
+        intents.map((intent) => typeof intent === 'string' ? GatewayIntents[intent] : intent).forEach((intent) => this.addIntent(intent));
         return this;
     }
 

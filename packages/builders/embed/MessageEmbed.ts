@@ -1,6 +1,9 @@
 import type * as Discord from '../../deps.ts';
 
-export enum Limits {
+/**
+ * Embed Limits
+ */
+export enum EmbedLimits {
     Title = 256,
     Description = 4096,
     FieldName = 256,
@@ -11,23 +14,36 @@ export enum Limits {
     Total = 6000,
 }
 
+/**
+ * MessageEmbed constructor inspired by discord.js
+ * @example
+ * const embed = new MessageEmbed()
+ *  .setTitle("Hello, world!");
+ */
 export class MessageEmbed {
-    public total = 0;
-    public file?: Discord.FileContent;
-    public embed: Discord.Embed & { fields: Discord.DiscordEmbedField[] };
+    total = 0;
+    file?: Discord.FileContent;
+    embed: Discord.Embed & { fields: Discord.DiscordEmbedField[] };
+    safe: boolean;
 
-    public constructor(embed: Discord.Embed = {}) {
+    constructor(safe = true, embed: Discord.Embed = {}) {
         this.embed = Object.assign(embed, { fields: [] });
+        this.safe = safe;
     }
 
-    public equal(embed: MessageEmbed | Discord.Embed) {
+    static from(json: Discord.Embed = {}, safe = true) {
+        return new MessageEmbed(safe, json);
+    }
+
+    equal(embed: MessageEmbed | Discord.Embed) {
         if ('embed' in embed) {
             return Object.is(this.embed, embed.embed);
         }
         return Object.is(this.embed, embed);
     }
 
-    public color(color: number | [number, number, number] | `#${string}` | 'random') {
+    /** sets the color of the current embed */
+    color(color: number | [number, number, number] | `#${string}` | 'random') {
         if (Array.isArray(color)) {
             color = (color[0] << 16) + (color[1] << 8) + color[2];
         }
@@ -40,27 +56,30 @@ export class MessageEmbed {
                 return this;
             }
         }
-        if (color < 0 || color > 0xffffff) throw new RangeError('COLOR_RANGE');
-        if (isNaN(color)) throw new TypeError('COLOR_CONVERT');
+
+        if (this.safe && isNaN(color)) {
+            throw new TypeError('Cannot convert NaN to a valid color');
+        }
 
         this.embed.color = color;
         return this;
     }
 
-    public field(name: string, value: string, inline = false) {
+    /** adds a field to the current embed */
+    field(name: string, value: string, inline = false) {
         if (!this.embed.fields) {
             this.embed.fields = [];
         }
 
-        if (name.length > Limits.FieldName) {
+        if (this.safe && name.length > EmbedLimits.FieldName) {
             throw new TypeError('Embed field name limit exceeded');
         }
 
-        if (value.length > Limits.FieldValue) {
+        if (this.safe && value.length > EmbedLimits.FieldValue) {
             throw new TypeError('Embed field value limit exceeded');
         }
 
-        if (this.embed.fields.length > Limits.Fields) {
+        if (this.safe && this.embed.fields.length > EmbedLimits.Fields) {
             throw new TypeError('Embed fields limit exceeded');
         }
 
@@ -70,8 +89,9 @@ export class MessageEmbed {
         return this;
     }
 
-    public fields(fields: { name: string; value: string; inline?: boolean }[]) {
-        if (this.embed.fields!.length > Limits.Fields) {
+    /** sets the fields of the current embed */
+    fields(fields: { name: string; value: string; inline?: boolean }[]) {
+        if (this.safe && this.embed.fields!.length > EmbedLimits.Fields) {
             throw new TypeError('Embed fields limit exceeded');
         }
 
@@ -82,11 +102,13 @@ export class MessageEmbed {
         return this;
     }
 
-    public blank(inline = true) {
+    /** adds a blank field to the current embed */
+    blank(inline = true) {
         return this.field('\u200B', '\u200B', inline);
     }
 
-    public attachment(attachment: Discord.FileContent) {
+    /** sets the image of the current embed to a given attachment */
+    attachment(attachment: Discord.FileContent) {
         this.file = {
             blob: attachment.blob,
             name: attachment.name,
@@ -95,7 +117,8 @@ export class MessageEmbed {
         return this.image(`attachment${attachment.name}`);
     }
 
-    public timestamp(timestamp: number | Date) {
+    /** sets the timestamp of the current embed */
+    timestamp(timestamp: number | Date) {
         this.embed.timestamp = timestamp instanceof Date
             ? timestamp.getMilliseconds() / 1000
             : typeof timestamp === 'number'
@@ -105,23 +128,27 @@ export class MessageEmbed {
         return this;
     }
 
-    public image(url: string, proxyUrl?: string, height?: number, width?: number) {
+    /** sets the image of the current embed */
+    image(url: string, proxyUrl?: string, height?: number, width?: number) {
         this.embed.image = { url, proxyUrl, height, width };
         return this;
     }
 
-    public video(url?: string, proxyUrl?: string, height?: number, width?: number) {
+    /** sets the video of the current embed */
+    video(url?: string, proxyUrl?: string, height?: number, width?: number) {
         this.embed.video = { url, proxyUrl, height, width };
         return this;
     }
 
-    public thumbnail(url: string, proxyUrl?: string, height?: number, width?: number) {
+    /** sets the thumbnail of the current embed */
+    thumbnail(url: string, proxyUrl?: string, height?: number, width?: number) {
         this.embed.thumbnail = { url, proxyUrl, height, width };
         return this;
     }
 
-    public title(title: string) {
-        if (title.length > Limits.Title) {
+    /** sets the title of the current embed */
+    title(title: string) {
+        if (this.safe && title.length > EmbedLimits.Title) {
             throw new TypeError('Embed title limit exceeded');
         }
 
@@ -131,8 +158,9 @@ export class MessageEmbed {
         return this;
     }
 
-    public footer(text: string, iconUrl?: string, proxyIconUrl?: string) {
-        if (text.length > Limits.FooterText) {
+    /** sets the footer of the current embed */
+    footer(text: string, iconUrl?: string, proxyIconUrl?: string) {
+        if (this.safe && text.length > EmbedLimits.FooterText) {
             throw new TypeError('Embed footer text limit exceeded');
         }
 
@@ -142,8 +170,9 @@ export class MessageEmbed {
         return this;
     }
 
-    public author(name: string, iconUrl?: string, url?: string, proxyIconUrl?: string) {
-        if (name.length > Limits.AuthorName) {
+    /** sets the author of the current embed */
+    author(name: string, iconUrl?: string, url?: string, proxyIconUrl?: string) {
+        if (this.safe && name.length > EmbedLimits.AuthorName) {
             throw new TypeError('Embed author name limit exceeded');
         }
 
@@ -153,18 +182,20 @@ export class MessageEmbed {
         return this;
     }
 
-    public provider(name: string, url: string) {
+    provider(name: string, url: string) {
         this.embed.provider = { name, url };
         return this;
     }
 
-    public url(url: string) {
+    /** sets the url of the current embed */
+    url(url: string) {
         this.embed.url = url;
         return this;
     }
 
-    public description(description: string) {
-        if (description.length > Limits.Description) {
+    /** sets the description of the current embed */
+    description(description: string) {
+        if (this.safe && description.length > EmbedLimits.Description) {
             throw new TypeError('Embed description limit exceeded');
         }
 
@@ -174,7 +205,7 @@ export class MessageEmbed {
         return this;
     }
 
-    public toJSON() {
+    toJSON() {
         return this.embed;
     }
 }
