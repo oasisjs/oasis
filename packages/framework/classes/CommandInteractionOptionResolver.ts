@@ -217,7 +217,7 @@ export class CommandInteractionOptionResolver {
         return full ? focusedOption : focusedOption.Otherwise;
     }
 
-    getSubcommand(required = true) {
+    getSubCommand(required = true) {
         if (required && !this.#subcommand) {
             throw new TypeError('Option marked as required was undefined');
         }
@@ -225,7 +225,7 @@ export class CommandInteractionOptionResolver {
         return [this.#subcommand, this.hoistedOptions];
     }
 
-    getSubcommandGroup(required = false) {
+    getSubCommandGroup(required = false) {
         if (required && !this.#group) {
             throw new TypeError('Option marked as required was undefined');
         }

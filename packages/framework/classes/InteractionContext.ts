@@ -16,6 +16,7 @@ export class InteractionContext<T extends Bot = Bot> {
         Object.defineProperty(this, 'bot', { enumerable: false, writable: false, value: bot });
     }
 
+    /** responds to an interaction */
     async respond(data: CreateCommand) {
         const parsed: InteractionApplicationCommandCallbackData = {
             // pass

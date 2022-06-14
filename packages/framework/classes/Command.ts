@@ -1,4 +1,4 @@
-import type { CreateApplicationCommand, ApplicationCommandOption } from '../../deps.ts';
+import type { ApplicationCommandOption, CreateApplicationCommand } from '../../deps.ts';
 import type { Context } from './Context.ts';
 
 /**

@@ -133,6 +133,7 @@ Deno: `deno cache https://deno.land/x/oasis/mod.ts` Node: `npm install oasis-fra
 ### Changelog:
 
 #### 2.0.0
+
 - Refactor the entire codebase
 - better support for Subcommands
 - Testing
@@ -140,9 +141,11 @@ Deno: `deno cache https://deno.land/x/oasis/mod.ts` Node: `npm install oasis-fra
 - [bug fix](https://github.com/yuzudev/oasis/issues/2#issue-1264940912)
 
 #### 1.6.X
+
 - hotfixes and new contrib file
 
 #### 1.5.X
+
 - new contrib file
 - bug fixes
 

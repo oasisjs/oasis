@@ -16,7 +16,12 @@ export class OasisClient {
      * Defines an event
      */
     defineEvent(name: keyof EventHandlers, fn: EventHandlers[typeof name]) {
-        return this.#options.events[name] = fn, this;
+        this.#options.events = {
+            ...this.#options.events,
+            [name]: fn,
+        };
+
+        return this;
     }
 
     setToken(token: string): this {
@@ -44,16 +49,20 @@ export class OasisClient {
      * Adds multiple intents via `setIntent``
      */
     addIntents(intents: Array<keyof typeof GatewayIntents> | Array<GatewayIntents>): this {
-        intents.map((intent) => typeof intent === 'string' ? GatewayIntents[intent] : intent).forEach((intent) => this.addIntent(intent));
+        intents.map((intent) => typeof intent === 'string' ? GatewayIntents[intent] : intent).forEach((intent) =>
+            this.addIntent(intent)
+        );
         return this;
     }
 
     /**
      * Starts the bot
      */
-    start<A extends Bot>(plugins: Array<(bot: Bot) => Bot> = []): Promise<A> {
+    async start<A extends Bot>(plugins: Array<(bot: Bot) => Bot> = []): Promise<A> {
         const bot = plugins.reduce((y, x) => x(y), createBot(this.#options));
 
-        return startBot(bot).then(() => bot as A);
+        const forward = await startBot(bot).then(() => bot as A);
+
+        return forward;
     }
 }

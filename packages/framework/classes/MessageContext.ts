@@ -5,8 +5,8 @@ import { ApplicationCommandOptionTypes } from '../../deps.ts';
 import { transformOasisInteractionDataOption } from './CommandInteractionOptionResolver.ts';
 import { subCommands } from '../cache.ts';
 
-const YES: ReadonlySet<string> = new Set(["yes", "y", "on", "true"]);
-const NO: ReadonlySet<string> = new Set(["no", "n", "off", "false"]);
+const YES: ReadonlySet<string> = new Set(['yes', 'y', 'on', 'true']);
+const NO: ReadonlySet<string> = new Set(['no', 'n', 'off', 'false']);
 
 /**
  * Context class for messages
@@ -24,6 +24,7 @@ export class MessageContext<T extends Bot = Bot> {
         Object.defineProperty(this, 'bot', { enumerable: false, writable: false, value: bot });
     }
 
+    /** sends a message */
     async respond(data: CreateCommand) {
         const parsed: CreateMessage = {
             // pass
@@ -52,6 +53,7 @@ export class MessageContext<T extends Bot = Bot> {
         return m;
     }
 
+    /** sends a message replying to someone */
     async reply(options: CreateCommand): Promise<Message | undefined> {
         const m = await this.respond(
             Object.assign(options, {
@@ -124,7 +126,7 @@ export class MessageContext<T extends Bot = Bot> {
                 name: args[0],
                 type: ApplicationCommandOptionTypes.SubCommand,
                 options: args.slice(1).map(mapArgs),
-            })
+            }),
         ];
     }
 
