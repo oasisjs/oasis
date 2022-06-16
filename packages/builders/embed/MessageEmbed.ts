@@ -22,7 +22,6 @@ export enum EmbedLimits {
  */
 export class MessageEmbed {
     total = 0;
-    file?: Discord.FileContent;
     embed: Discord.Embed & { fields: Discord.DiscordEmbedField[] };
     safe: boolean;
 
@@ -105,16 +104,6 @@ export class MessageEmbed {
     /** adds a blank field to the current embed */
     blank(inline = true) {
         return this.field('\u200B', '\u200B', inline);
-    }
-
-    /** sets the image of the current embed to a given attachment */
-    attachment(attachment: Discord.FileContent) {
-        this.file = {
-            blob: attachment.blob,
-            name: attachment.name,
-        };
-
-        return this.image(`attachment${attachment.name}`);
     }
 
     /** sets the timestamp of the current embed */
