@@ -1,7 +1,4 @@
-import { Reflect as R } from 'https://deno.land/x/deno_reflect@v0.1.13/mod.ts';
-
-// @ts-ignore: compatibility
-window.Reflect = R;
+import './reflect-deno.ts';
 
 /**
  * All credits to the Reflect metadata authors
