@@ -2,7 +2,8 @@ import type { BaseCommand } from '../classes/Command.ts';
 import { commandAliases, commands } from '../cache.ts';
 
 /** Makes an instance of the command and adds the command to cache */
-export function Command<T extends { new(): Function }>(target: T): T | void {
+// deno-lint-ignore no-explicit-any
+export function Command(target: any) {
     const instance = new target() as Partial<BaseCommand>;
 
     claim(instance, instance.options ?? [], instance.aliases);
