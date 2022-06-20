@@ -1,9 +1,10 @@
 import { type Context } from '../../deps.ts';
-import { Argument as Option, Command } from '../../deps.ts';
+import { Argument as Option, SubCommand } from '../../deps.ts';
 
+@SubCommand({
+    dependencies: ['repl']
+})
 export class Ping {
-    readonly parent = 'repl';
-
     @Option('Wheter to mention the user or not', true)
     declare mention: boolean;
 
