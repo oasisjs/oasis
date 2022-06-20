@@ -16,7 +16,15 @@ export declare class BaseCommand {
  * The data class for representing commands
  */
 export declare class BaseSubCommand {
-    readonly parent: string;
+    readonly options: unknown[] | ApplicationCommandOption[];
+
+    run(ctx: Context): Promise<unknown>;
+}
+
+/**
+ * The data class for representing commands
+ */
+export declare class BaseSubCommandGroup {
     readonly options: unknown[] | ApplicationCommandOption[];
 
     run(ctx: Context): Promise<unknown>;

@@ -19,6 +19,13 @@ export const subCommands = new Collection<string, [BaseSubCommand, unknown[]]>()
 
 /**
  * @example
+ * "emotes/add/whatever" => SubCommandGroup
+ * "emotes/remove/etc" => SubCommandGroup
+ */
+export const subCommandGroups = new Collection<string, [BaseSubCommandGroup, unknown[]]>();
+
+/**
+ * @example
  * "pfp" => "avatar"
  * "avy" => "avatar"
  * "pic" => "avatar"

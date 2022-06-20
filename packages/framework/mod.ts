@@ -6,4 +6,6 @@ export * from './classes/InteractionContext.ts';
 export * from './classes/MessageContext.ts';
 export * from './decorators/Command.ts';
 export * from './decorators/Option.ts';
+export * from './decorators/SubCommand.ts';
+export * from './decorators/SubCommandGroup.ts';
 export * from './cache.ts';

@@ -3,7 +3,7 @@ import './reflect-deno.ts';
 /**
  * All credits to the Reflect metadata authors
  */
-declare namespace Reflect {
+export declare namespace Reflect {
     function decorate(decorators: ClassDecorator[], target: Function): Function;
     function decorate(
         decorators: (PropertyDecorator | MethodDecorator)[],
