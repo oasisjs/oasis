@@ -10,10 +10,10 @@ export class Repl {
         description: 'ping the bot',
     };
 
-    @Option.SubCommand('a', new Ping())
+    @Option.SubCommand('a', Ping)
     declare ping: Ping;
 
-    @Option.SubCommand('b', new Pong())
+    @Option.SubCommand('b', Pong)
     declare pong: Ping;
 
     get options() {

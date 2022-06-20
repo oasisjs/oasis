@@ -3,7 +3,7 @@ import { metadataHelpers, CommandLevel } from './metadata.ts';
 
 export function SubCommand({ dependencies }: { dependencies: [string] }): ClassDecorator {
 	return function(object) {
-		metadataHelpers.setMetadata(object, "dependencies", dependencies);
-		metadataHelpers.setMetadata(object, "level", CommandLevel.SubCommand);
+		metadataHelpers.setMetadata(object.prototype, "dependencies", dependencies);
+		metadataHelpers.setMetadata(object.prototype, "level", CommandLevel.SubCommand);
 	};
 }

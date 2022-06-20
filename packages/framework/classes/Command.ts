@@ -4,7 +4,7 @@ import type { Context } from './Context.ts';
 /**
  * The data class for representing commands
  */
-export declare class BaseCommand {
+export declare class BaseCommand extends Object {
     readonly aliases: string[];
     readonly data: CreateApplicationCommand;
     readonly options: unknown[] | ApplicationCommandOption[];
@@ -15,7 +15,7 @@ export declare class BaseCommand {
 /**
  * The data class for representing commands
  */
-export declare class BaseSubCommand {
+export declare class BaseSubCommand extends Object {
     readonly options: unknown[] | ApplicationCommandOption[];
 
     run(ctx: Context): Promise<unknown>;
@@ -24,7 +24,7 @@ export declare class BaseSubCommand {
 /**
  * The data class for representing commands
  */
-export declare class BaseSubCommandGroup {
+export declare class BaseSubCommandGroup extends Object {
     readonly options: unknown[] | ApplicationCommandOption[];
 
     run(ctx: Context): Promise<unknown>;

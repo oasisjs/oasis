@@ -1,11 +1,9 @@
+/// <reference-types = '../../../reflect-metadata.ts'/>
+
 import { ApplicationCommandOptionTypes, ChannelTypes } from '../../deps.ts';
 import type { ApplicationCommandOption, ApplicationCommandOptionChoice } from '../../deps.ts';
 import type { BaseCommand, BaseSubCommand, BaseSubCommandGroup } from '../classes/Command.ts';
 import { subCommands, subCommandGroups } from '../cache.ts';
-
-// this shouldn't get compiled
-import { Reflect } from '../../../reflect-metadata.ts';
-
 
 // DECORATORS METADATA
 import { metadataHelpers, CommandLevel } from './metadata.ts';
@@ -122,16 +120,21 @@ Argument.Attachment = function (description: string, required = false) {
     return genericOption(ApplicationCommandOptionTypes.Attachment, description, required);
 };
 
-Argument.SubCommand = function (description: string, instance: BaseSubCommand): PropertyDecorator {
+Argument.SubCommand = function (description: string, klass: { new(): Partial<BaseSubCommand> }): PropertyDecorator {
     return function (object, name) {
-        const metadata = metadataHelpers.getOwnMetadata(instance);
+        const metadata = metadataHelpers.getOwnMetadata(klass.prototype);
+
+        // to debug
+        // console.log(metadata);
 
         if (metadata.level !== CommandLevel.SubCommand) {
             return;
         }
 
+        const instance = new klass() as BaseSubCommand;
+
         /** instrospection */
-        subCommands.set(`${metadata.parents[0]}/${name.toString()}`, [instance, instance.options]);
+        subCommands.set(`${metadata.dependencies[0]}/${name.toString()}`, [instance, instance.options]);
 
         const argument: Partial<ApplicationCommandOption> = {
             name: name.toString(),
@@ -144,16 +147,21 @@ Argument.SubCommand = function (description: string, instance: BaseSubCommand): 
     };
 };
 
-Argument.SubCommandGroup = function (description: string, instance: BaseSubCommandGroup): PropertyDecorator {
+Argument.SubCommandGroup = function (description: string, klass: { new(): Partial<BaseSubCommand> }): PropertyDecorator {
     return function (object, name) {
-        const metadata = metadataHelpers.getOwnMetadata(instance);
+        const metadata = metadataHelpers.getOwnMetadata(klass.prototype);
+
+        // to debug
+        // console.log(metadata);
 
         if (metadata.level !== CommandLevel.SubCommandGroup) {
             return;
         }
 
+        const instance = new klass() as BaseSubCommand;
+
         /** instrospection */
-        subCommandGroups.set(`${metadata.parents[0]}/${metadata.parents[1]}/${name.toString()}`, [instance, instance.options]);
+        subCommands.set(`${metadata.dependencies[0]}/${metadata.dependencies[1]}/${name.toString()}`, [instance, instance.options]);
 
         const argument: Partial<ApplicationCommandOption> = {
             name: name.toString(),
@@ -165,6 +173,7 @@ Argument.SubCommandGroup = function (description: string, instance: BaseSubComma
         Object.defineProperty(object, name, { get: () => argument });
     };
 };
+
 
 export const Option = Argument;
 

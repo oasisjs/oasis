@@ -1,6 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-
-import { Reflect } from "../../../reflect-metadata.ts";
+/// <reference-types = '../../../reflect-metadata.ts'/>
 
 import '../../../reflect-metadata.ts';
 
