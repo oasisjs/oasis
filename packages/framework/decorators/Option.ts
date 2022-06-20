@@ -94,7 +94,7 @@ Argument.Integer = function (
 };
 
 Argument.Channel = function (description: string, required = false, channelTypes?: ChannelTypes[]) {
-    return genericOption(ApplicationCommandOptionTypes.Number, description, required, { channelTypes });
+    return genericOption(ApplicationCommandOptionTypes.Channel, description, required, { channelTypes });
 };
 
 Argument.Role = function (description: string, required = false) {
