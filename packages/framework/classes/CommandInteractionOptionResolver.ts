@@ -100,7 +100,7 @@ export class CommandInteractionOptionResolver {
             // pass
         }
 
-        if (required === true && properties.every((prop) => !option[prop])) {
+        if (required === true && properties.every((prop) => typeof option[prop] === "undefined")) {
             throw new TypeError(`Properties ${properties.join(', ')} are missing in option ${name}`);
         }
 

@@ -14,13 +14,16 @@ type MetadataHelpers<T> = {
 export function createMetadataHelpers<T>(metadataKey: symbol)/*: MetadataHelpers<T>*/ {
 	const output: MetadataHelpers<T> = {
 		getOwnMetadata(target): T {
+			// @ts-ignore: compat
 			return Reflect.getOwnMetadata(metadataKey, target);
 		},
 		hasOwnMetadata(target): boolean {
+			// @ts-ignore: compat
 			return Reflect.hasOwnMetadata(metadataKey, target);
 		},
 		ensureMetadata(target) {
 			if (!this.hasOwnMetadata(target)) {
+				// @ts-ignore: compat
             	Reflect.defineMetadata(metadataKey, {}, target);
             }
 

@@ -21,6 +21,7 @@ export function Argument(description: string, required = false): PropertyDecorat
             required,
         };
 
+        // @ts-ignore: compat
         const dataType = Reflect.getMetadata('design:type', object, name);
 
         argument.type = dataType === Boolean
@@ -133,8 +134,13 @@ Argument.SubCommand = function (description: string, klass: { new(): Partial<Bas
 
         const instance = new klass() as BaseSubCommand;
 
-        /** instrospection */
-        subCommands.set(`${metadata.dependencies[0]}/${name.toString()}`, [instance, instance.options]);
+        /** is inside a group */
+        if (1 in metadata.dependencies) {
+            subCommandGroups.set(`${metadata.dependencies[0]}/${metadata.dependencies[1]}/${name.toString()}`, [instance, instance.options]);
+        }
+        else {
+            subCommands.set(`${metadata.dependencies[0]}/${name.toString()}`, [instance, instance.options]);
+        }
 
         const argument: Partial<ApplicationCommandOption> = {
             name: name.toString(),
@@ -160,13 +166,10 @@ Argument.SubCommandGroup = function (description: string, klass: { new(): Partia
 
         const instance = new klass() as BaseSubCommand;
 
-        /** instrospection */
-        subCommands.set(`${metadata.dependencies[0]}/${metadata.dependencies[1]}/${name.toString()}`, [instance, instance.options]);
-
         const argument: Partial<ApplicationCommandOption> = {
             name: name.toString(),
             description,
-            type: ApplicationCommandOptionTypes.SubCommand,
+            type: ApplicationCommandOptionTypes.SubCommandGroup,
             options: (instance.options ?? []) as ApplicationCommandOption[],
         };
 

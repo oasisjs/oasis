@@ -3,7 +3,7 @@ import type { OasisCommandInteractionOption } from './CommandInteractionOptionRe
 import type { CreateCommand } from './CreateCommand.ts';
 import { ApplicationCommandOptionTypes } from '../../deps.ts';
 import { transformOasisInteractionDataOption } from './CommandInteractionOptionResolver.ts';
-import { subCommands } from '../cache.ts';
+import { subCommands, subCommandGroups } from '../cache.ts';
 
 const YES: ReadonlySet<string> = new Set(['yes', 'y', 'on', 'true']);
 const NO: ReadonlySet<string> = new Set(['no', 'n', 'off', 'false']);
@@ -117,17 +117,29 @@ export class MessageContext<T extends Bot = Bot> {
             }
         }
 
-        if (!subCommands.get(`${commandName}/${args[0]}`)) {
-            return args.map(mapArgs);
+        if (!subCommands.has(`${commandName}/${args[0]}`)) {
+            if (!subCommandGroups.has(`${commandName}/${args[0]}/${args[1]}`)) {
+                return args.map(mapArgs);
+            }
+            else {
+                return [
+                    transformOasisInteractionDataOption({
+                        name: args[1],
+                        type: ApplicationCommandOptionTypes.SubCommandGroup,
+                        options: args.slice(1).map(mapArgs),
+                    }),
+                ];
+            }
         }
-
-        return [
-            transformOasisInteractionDataOption({
-                name: args[0],
-                type: ApplicationCommandOptionTypes.SubCommand,
-                options: args.slice(1).map(mapArgs),
-            }),
-        ];
+        else {
+            return [
+                transformOasisInteractionDataOption({
+                    name: args[0],
+                    type: ApplicationCommandOptionTypes.SubCommand,
+                    options: args.slice(1).map(mapArgs),
+                }),
+            ];
+        }
     }
 
     static parseArgs(prefix: string, message: Message): [string, string[]] | undefined {

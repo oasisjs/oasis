@@ -38,6 +38,7 @@ const client = new OasisClient({
                 await upsertApplicationCommands(
                     bot,
                     commands.map(([command, options]) => {
+                        // console.log(command.data.name, options);
                         return {
                             name: command.data.name,
                             description: command.data.description,

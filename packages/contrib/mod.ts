@@ -1,5 +1,5 @@
 import type { Bot } from '../deps.ts';
-import { commandAliases, commands, Context, subCommands } from '../framework/mod.ts';
+import { commandAliases, commands, Context, subCommands, subCommandGroups } from '../framework/mod.ts';
 
 /** represents an asyncronous prefix lookup */
 type PrefixCallback = (guildId: bigint | undefined) => Promise<string>;
@@ -137,6 +137,15 @@ export const enableBigBrainCommandContext = (prefix: string) => (bot: Bot): Bot 
             if (subCommand) {
                 subCommand.run(ctx);
             }
+            else {
+                const [subCommandGroupName] = ctx.options.getSubCommandGroup(false) ?? [];
+
+                const [subCommandFromGroup] = subCommandGroups.get(`${commandName}/${subCommandGroupName}/${subCommandName}`) ?? [];
+
+                if (subCommandFromGroup) {
+                    subCommandFromGroup.run(ctx);
+                }
+            }
         }
 
         const [command] = commands.get(commandName) ?? [];
@@ -170,6 +179,15 @@ export const enableBigBrainCommandContext = (prefix: string) => (bot: Bot): Bot 
 
             if (subCommand) {
                 subCommand.run(ctx);
+            }
+            else {
+                const [subCommandGroupName] = ctx.options.getSubCommandGroup(false) ?? [];
+
+                const [subCommandFromGroup] = subCommandGroups.get(`${commandName}/${subCommandGroupName}/${subCommandName}`) ?? [];
+
+                if (subCommandFromGroup) {
+                    subCommandFromGroup.run(ctx);
+                }
             }
         }
 
@@ -215,6 +233,15 @@ export const enableBiggerBrainCommandContext = (prefixFn: PrefixCallback) => (bo
             if (subCommand) {
                 subCommand.run(ctx);
             }
+            else {
+                const [subCommandGroupName] = ctx.options.getSubCommandGroup(false) ?? [];
+
+                const [subCommandFromGroup] = subCommandGroups.get(`${commandName}/${subCommandGroupName}/${subCommandName}`) ?? [];
+
+                if (subCommandFromGroup) {
+                    subCommandFromGroup.run(ctx);
+                }
+            }
         }
 
         const [command] = commands.get(commandName) ?? [];
@@ -250,6 +277,15 @@ export const enableBiggerBrainCommandContext = (prefixFn: PrefixCallback) => (bo
 
             if (subCommand) {
                 subCommand.run(ctx);
+            }
+            else {
+                const [subCommandGroupName] = ctx.options.getSubCommandGroup(false) ?? [];
+
+                const [subCommandFromGroup] = subCommandGroups.get(`${commandName}/${subCommandGroupName}/${subCommandName}`) ?? [];
+
+                if (subCommandFromGroup) {
+                    subCommandFromGroup.run(ctx);
+                }
             }
         }
 

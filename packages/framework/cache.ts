@@ -1,6 +1,6 @@
 import type { EventHandlers } from '../deps.ts';
 
-import type { BaseCommand, BaseSubCommand } from './classes/Command.ts';
+import type { BaseCommand, BaseSubCommand, BaseSubCommandGroup } from './classes/Command.ts';
 
 import { Collection } from '../deps.ts';
 
@@ -22,7 +22,7 @@ export const subCommands = new Collection<string, [BaseSubCommand, unknown[]]>()
  * "emotes/add/whatever" => SubCommandGroup
  * "emotes/remove/etc" => SubCommandGroup
  */
-export const subCommandGroups = new Collection<string, [BaseSubCommandGroup, unknown[]]>();
+export const subCommandGroups = new Collection<string, [BaseSubCommand, unknown[]]>();
 
 /**
  * @example
