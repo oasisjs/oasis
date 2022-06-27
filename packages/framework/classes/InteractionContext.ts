@@ -23,7 +23,7 @@ export class InteractionContext<T extends Bot = Bot> {
         };
 
         if ('embeds' in data) {
-            parsed.embeds = data.embeds.map((e) => e.toJSON());
+            parsed.embeds = data.embeds?.map((e) => e.toJSON?.() || e);
         } else if (typeof data.with === 'string') {
             parsed.content = data.with;
         } else if (Array.isArray(data.with)) {
@@ -32,6 +32,9 @@ export class InteractionContext<T extends Bot = Bot> {
             parsed.content = undefined;
         } else {
             parsed.embeds = [data.with.toJSON()];
+        }
+        if ('components' in data) {
+            parsed.components = data.components;
         }
 
         const m = await this.bot.helpers.sendInteractionResponse(this.interaction.id, this.interaction.token, {
