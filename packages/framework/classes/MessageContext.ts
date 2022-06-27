@@ -3,7 +3,7 @@ import type { OasisCommandInteractionOption } from './CommandInteractionOptionRe
 import type { CreateCommand } from './CreateCommand.ts';
 import { ApplicationCommandOptionTypes } from '../../deps.ts';
 import { transformOasisInteractionDataOption } from './CommandInteractionOptionResolver.ts';
-import { subCommands, subCommandGroups } from '../cache.ts';
+import { subCommandGroups, subCommands } from '../cache.ts';
 
 const YES: ReadonlySet<string> = new Set(['yes', 'y', 'on', 'true']);
 const NO: ReadonlySet<string> = new Set(['no', 'n', 'off', 'false']);
@@ -31,7 +31,7 @@ export class MessageContext<T extends Bot = Bot> {
         };
 
         if ('embeds' in data) {
-            parsed.embeds = data.embeds.map((e) => e.toJSON());
+            parsed.embeds = data.embeds?.map((e) => e.toJSON?.() || e);
         } else if (typeof data.with === 'string') {
             parsed.content = data.with;
         } else if (Array.isArray(data.with)) {
@@ -40,6 +40,9 @@ export class MessageContext<T extends Bot = Bot> {
             parsed.content = undefined;
         } else {
             parsed.embeds = [data.with.toJSON()];
+        }
+        if ('components' in data) {
+            parsed.components = data.components;
         }
 
         const m = await this.bot.helpers.sendMessage(this.message.channelId, {
@@ -120,8 +123,7 @@ export class MessageContext<T extends Bot = Bot> {
         if (!subCommands.has(`${commandName}/${args[0]}`)) {
             if (!subCommandGroups.has(`${commandName}/${args[0]}/${args[1]}`)) {
                 return args.map(mapArgs);
-            }
-            else {
+            } else {
                 return [
                     transformOasisInteractionDataOption({
                         name: args[1],
@@ -130,8 +132,7 @@ export class MessageContext<T extends Bot = Bot> {
                     }),
                 ];
             }
-        }
-        else {
+        } else {
             return [
                 transformOasisInteractionDataOption({
                     name: args[0],

@@ -3,10 +3,10 @@
 import { ApplicationCommandOptionTypes, ChannelTypes } from '../../deps.ts';
 import type { ApplicationCommandOption, ApplicationCommandOptionChoice } from '../../deps.ts';
 import type { BaseCommand, BaseSubCommand, BaseSubCommandGroup } from '../classes/Command.ts';
-import { subCommands, subCommandGroups } from '../cache.ts';
+import { subCommandGroups, subCommands } from '../cache.ts';
 
 // DECORATORS METADATA
-import { metadataHelpers, CommandLevel } from './metadata.ts';
+import { CommandLevel, metadataHelpers } from './metadata.ts';
 
 import '../../../reflect-metadata.ts';
 
@@ -64,7 +64,7 @@ Argument.String = function (
     description: string,
     required = false,
     autocomplete?: boolean,
-    choices?: ApplicationCommandOptionChoice,
+    choices?: ApplicationCommandOptionChoice[],
 ) {
     return genericOption(ApplicationCommandOptionTypes.String, description, required, { autocomplete, choices });
 };
@@ -121,7 +121,7 @@ Argument.Attachment = function (description: string, required = false) {
     return genericOption(ApplicationCommandOptionTypes.Attachment, description, required);
 };
 
-Argument.SubCommand = function (description: string, klass: { new(): Partial<BaseSubCommand> }): PropertyDecorator {
+Argument.SubCommand = function (description: string, klass: { new (): Partial<BaseSubCommand> }): PropertyDecorator {
     return function (object, name) {
         const metadata = metadataHelpers.getOwnMetadata(klass.prototype);
 
@@ -136,9 +136,11 @@ Argument.SubCommand = function (description: string, klass: { new(): Partial<Bas
 
         /** is inside a group */
         if (1 in metadata.dependencies) {
-            subCommandGroups.set(`${metadata.dependencies[0]}/${metadata.dependencies[1]}/${name.toString()}`, [instance, instance.options]);
-        }
-        else {
+            subCommandGroups.set(`${metadata.dependencies[0]}/${metadata.dependencies[1]}/${name.toString()}`, [
+                instance,
+                instance.options,
+            ]);
+        } else {
             subCommands.set(`${metadata.dependencies[0]}/${name.toString()}`, [instance, instance.options]);
         }
 
@@ -153,7 +155,10 @@ Argument.SubCommand = function (description: string, klass: { new(): Partial<Bas
     };
 };
 
-Argument.SubCommandGroup = function (description: string, klass: { new(): Partial<BaseSubCommand> }): PropertyDecorator {
+Argument.SubCommandGroup = function (
+    description: string,
+    klass: { new (): Partial<BaseSubCommand> },
+): PropertyDecorator {
     return function (object, name) {
         const metadata = metadataHelpers.getOwnMetadata(klass.prototype);
 
@@ -176,7 +181,6 @@ Argument.SubCommandGroup = function (description: string, klass: { new(): Partia
         Object.defineProperty(object, name, { get: () => argument });
     };
 };
-
 
 export const Option = Argument;
 
