@@ -6,5 +6,6 @@ node_modules/
 .vscode
 *.debug
 *.log
+.vim
 .env
 oasis.toml
