@@ -1,5 +1,5 @@
-import { Context } from '../deps.ts';
-import { Command, Option, SubCommand, SubCommandGroup } from '../deps.ts';
+import { Context } from '../../deps.ts';
+import { Command, Option, SubCommand, SubCommandGroup } from '../../deps.ts';
 
 @SubCommand({
     dependencies: ['repl', 'group'],

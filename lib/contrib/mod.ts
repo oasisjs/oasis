@@ -38,7 +38,7 @@ export const enableCommandContext = (prefix: string) => (session: Session): Sess
     });
 
     session.on("messageCreate", (message) => {
-        if (message.isBot) {
+        if (message.isWebhookMessage() || message.author.bot) {
             return;
         }
 

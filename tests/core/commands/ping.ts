@@ -1,4 +1,4 @@
-import { Command, Context, Snowflake } from '../deps.ts';
+import { Command, Context, Snowflake } from '../../deps.ts';
 
 @Command
 export class Ping {
