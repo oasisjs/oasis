@@ -58,61 +58,7 @@ class EightBall {
 }
 ```
 
-## How make a simple middleware to execute commands
-
-Oasis is minimal by design, so you can make your own Context class that suits your needs heres a minimal example of how
-to write a middleware (no typescript needed)
-
-```ts
-const PREFIX = '->';
-const { interactionCreate, messageCreate } = bot.events;
-
-bot.events.interactionCreate = (bot, interaction) => {
-    if (interaction.user.toggles.bot) {
-        interactionCreate(bot, interaction);
-        return;
-    }
-
-    const ctx = new Context(PREFIX, bot, undefined, interaction);
-    const commandName = ctx.getCommandName();
-
-    if (!commandName) {
-        return;
-    }
-
-    const [command] = commands.get(commandName) ?? [];
-
-    if (command) {
-        command.run(ctx);
-    }
-
-    interactionCreate(bot, interaction);
-};
-
-bot.events.messageCreate = (bot, message) => {
-    if (message.isBot) {
-        // forward the event
-        messageCreate(bot, message);
-        return;
-    }
-
-    // make sure to import Context from oasis
-    const ctx = new Context(PREFIX, bot, message, undefined);
-    const commandName = ctx.getCommandName();
-
-    if (!commandName) {
-        return;
-    }
-
-    const [command] = commands.get(commandName) ?? commands.get(commandAliases.get(commandName) ?? '') ?? [];
-
-    if (command) {
-        command.run(ctx);
-    }
-
-    messageCreate(bot, message);
-};
-```
+Oasis is minimal by design, so you can make your own Context class that suits your needs.
 
 ## Installation
 
