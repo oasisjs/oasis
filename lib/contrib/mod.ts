@@ -3,10 +3,10 @@ import {
     commandAliases,
     commands,
     Context,
-    subCommands,
-    subCommandGroups,
     InteractionContext,
-    MessageContext
+    MessageContext,
+    subCommandGroups,
+    subCommands,
 } from '../framework/mod.ts';
 
 /** represents an asyncronous prefix lookup */

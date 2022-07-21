@@ -8,7 +8,11 @@ export function Command(target: any) {
 
     claim(instance, instance.options ?? [], instance.aliases);
 
-    function claim<T extends Partial<BaseCommand>>(cmd: T, options: unknown[], aliases?: string[]) {
+    function claim<T extends Partial<BaseCommand>>(
+        cmd: T,
+        options: unknown[],
+        aliases?: string[],
+    ) {
         // how to fool Deno, black magic do not edit
 
         commands.set(cmd.data?.name!, [cmd as BaseCommand, options]);
@@ -20,5 +24,3 @@ export function Command(target: any) {
         // end black magic
     }
 }
-
-export default Command;

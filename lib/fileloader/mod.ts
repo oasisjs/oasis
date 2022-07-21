@@ -8,12 +8,17 @@ export interface Module extends Record<string, unknown> {
 /**
  * Represents a recursive async generator return type
  */
-export type AsyncRecGenerator<T = unknown> = AsyncGenerator<T, void | AsyncRecGenerator<T>>;
+export type AsyncRecGenerator<T = unknown> = AsyncGenerator<
+    T,
+    void | AsyncRecGenerator<T>
+>;
 
 /**
  * Reads a directory and yields every file using an async generator, works with subdirectories
  */
-export async function* load<T extends Module>(dir: string): AsyncRecGenerator<T> {
+export async function* load<T extends Module>(
+    dir: string,
+): AsyncRecGenerator<T> {
     for await (const file of Deno.readDir(dir)) {
         // if is a directory recursively read all of the files inside the directory/subdirectory
         if (file.isDirectory) {
@@ -29,7 +34,10 @@ export async function* load<T extends Module>(dir: string): AsyncRecGenerator<T>
 /**
  * performs the load() async function and returns an array with an item for every iteration
  */
-export async function loadDirs<T extends Module>(root: string, dirs: string[]): Promise<T[]> {
+export async function loadDirs<T extends Module>(
+    root: string,
+    dirs: string[],
+): Promise<T[]> {
     const output = [] as T[];
 
     for (const dir of dirs) {

@@ -4,7 +4,7 @@ import createMetadataHelpers from '../../misc/metadata.ts';
 export enum CommandLevel {
     Command,
     SubCommand,
-    SubCommandGroup
+    SubCommandGroup,
 }
 
 type CommandState = {
@@ -22,7 +22,7 @@ type CommandState = {
 };
 
 /** symbol for command management's metadata */
-export const sym = Symbol("operatives");
+export const sym = Symbol('operatives');
 
 /** helpers to manipulate metadata */
 export const metadataHelpers = createMetadataHelpers<CommandState>(sym);

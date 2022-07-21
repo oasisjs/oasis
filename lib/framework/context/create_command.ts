@@ -1,20 +1,22 @@
 import type {
+    ActionRow,
     AllowedMentions,
+    DiscordEmbed,
+    DiscordMessageComponents,
     FileContent,
     InteractionResponseTypes,
-    ActionRow,
-    DiscordMessageComponents,
-    DiscordEmbed,
 } from '../../../deps.ts';
 import type { EmbedBuilder } from '../../../deps.ts';
-import type { BuilderResolvable } from "./util.ts";
+import type { BuilderResolvable } from './util.ts';
 
 /**
  * CreateMessage with improvements
  */
 export interface BaseCreateCommand {
     /** Message content */
-    with?: string | BuilderResolvable<DiscordEmbed> | BuilderResolvable<DiscordEmbed>[];
+    with?: string | BuilderResolvable<DiscordEmbed> | BuilderResolvable<
+        DiscordEmbed
+    >[];
     mentions?: AllowedMentions;
 }
 

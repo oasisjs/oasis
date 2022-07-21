@@ -48,7 +48,8 @@ class EightBall {
     }
 
     async run(ctx: Context) {
-        const question = ctx.options.getString(0) ?? ctx.options.getString('question');
+        const question = ctx.options.getString(0) ??
+            ctx.options.getString('question');
         const response = responses[Math.floor(Math.random() * responses.length)];
 
         if (question) {

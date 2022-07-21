@@ -1,1 +1,1 @@
-export * from "./metadata.ts";
+export * from './metadata.ts';

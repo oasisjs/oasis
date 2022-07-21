@@ -6,12 +6,15 @@ import { subCommandGroups, subCommands } from '../cache.ts';
 // DECORATORS METADATA
 import { CommandLevel, metadataHelpers } from './helpers.ts';
 
-declare let Reflect: typeof import("../../../deps.ts").Reflect;
+declare let Reflect: typeof import('../../../reflect-metadata.ts').Reflect;
 
 /**
  * Represents an option for a command
  */
-export function Argument(description: string, required = false): PropertyDecorator {
+export function Argument(
+    description: string,
+    required = false,
+): PropertyDecorator {
     return function (object, name) {
         const argument: Partial<ApplicationCommandOption> = {
             name: name.toString(),
@@ -63,7 +66,12 @@ Argument.String = function (
     autocomplete?: boolean,
     choices?: ApplicationCommandOptionChoice[],
 ) {
-    return genericOption(ApplicationCommandOptionTypes.String, description, required, { autocomplete, choices });
+    return genericOption(
+        ApplicationCommandOptionTypes.String,
+        description,
+        required,
+        { autocomplete, choices },
+    );
 };
 
 Argument.Number = function (
@@ -73,11 +81,16 @@ Argument.Number = function (
     minValue?: number,
     maxValue?: number,
 ) {
-    return genericOption(ApplicationCommandOptionTypes.Number, description, required, {
-        autocomplete,
-        minValue,
-        maxValue,
-    });
+    return genericOption(
+        ApplicationCommandOptionTypes.Number,
+        description,
+        required,
+        {
+            autocomplete,
+            minValue,
+            maxValue,
+        },
+    );
 };
 
 Argument.Integer = function (
@@ -87,38 +100,75 @@ Argument.Integer = function (
     minValue?: number,
     maxValue?: number,
 ) {
-    return genericOption(ApplicationCommandOptionTypes.Integer, description, required, {
-        autocomplete,
-        minValue,
-        maxValue,
-    });
+    return genericOption(
+        ApplicationCommandOptionTypes.Integer,
+        description,
+        required,
+        {
+            autocomplete,
+            minValue,
+            maxValue,
+        },
+    );
 };
 
-Argument.Channel = function (description: string, required = false, channelTypes?: ChannelTypes[]) {
-    return genericOption(ApplicationCommandOptionTypes.Channel, description, required, { channelTypes });
+Argument.Channel = function (
+    description: string,
+    required = false,
+    channelTypes?: ChannelTypes[],
+) {
+    return genericOption(
+        ApplicationCommandOptionTypes.Channel,
+        description,
+        required,
+        { channelTypes },
+    );
 };
 
 Argument.Role = function (description: string, required = false) {
-    return genericOption(ApplicationCommandOptionTypes.Role, description, required);
+    return genericOption(
+        ApplicationCommandOptionTypes.Role,
+        description,
+        required,
+    );
 };
 
 Argument.User = function (description: string, required = false) {
-    return genericOption(ApplicationCommandOptionTypes.User, description, required);
+    return genericOption(
+        ApplicationCommandOptionTypes.User,
+        description,
+        required,
+    );
 };
 
 Argument.Mentionable = function (description: string, required = false) {
-    return genericOption(ApplicationCommandOptionTypes.Mentionable, description, required);
+    return genericOption(
+        ApplicationCommandOptionTypes.Mentionable,
+        description,
+        required,
+    );
 };
 
 Argument.Boolean = function (description: string, required = false) {
-    return genericOption(ApplicationCommandOptionTypes.Boolean, description, required);
+    return genericOption(
+        ApplicationCommandOptionTypes.Boolean,
+        description,
+        required,
+    );
 };
 
 Argument.Attachment = function (description: string, required = false) {
-    return genericOption(ApplicationCommandOptionTypes.Attachment, description, required);
+    return genericOption(
+        ApplicationCommandOptionTypes.Attachment,
+        description,
+        required,
+    );
 };
 
-Argument.SubCommand = function (description: string, klass: { new (): Partial<BaseSubCommand> }): PropertyDecorator {
+Argument.SubCommand = function (
+    description: string,
+    klass: { new (): Partial<BaseSubCommand> },
+): PropertyDecorator {
     return function (object, name) {
         const metadata = metadataHelpers.getOwnMetadata(klass.prototype);
 
@@ -133,12 +183,18 @@ Argument.SubCommand = function (description: string, klass: { new (): Partial<Ba
 
         /** is inside a group */
         if (1 in metadata.dependencies) {
-            subCommandGroups.set(`${metadata.dependencies[0]}/${metadata.dependencies[1]}/${name.toString()}`, [
+            subCommandGroups.set(
+                `${metadata.dependencies[0]}/${metadata.dependencies[1]}/${name.toString()}`,
+                [
+                    instance,
+                    instance.options,
+                ],
+            );
+        } else {
+            subCommands.set(`${metadata.dependencies[0]}/${name.toString()}`, [
                 instance,
                 instance.options,
             ]);
-        } else {
-            subCommands.set(`${metadata.dependencies[0]}/${name.toString()}`, [instance, instance.options]);
         }
 
         const argument: Partial<ApplicationCommandOption> = {
