@@ -1,11 +1,11 @@
+<img align="right" src="https://raw.githubusercontent.com/oasisjs/oasis/main/assets/oasis.png" alt="oasis" width=150 height=150 />
+
 # Oasis
 
 Bleeding edge object oriented Discordeno framework for creating bots Oasis is minimal by design and it does not ship any
 cache layer so you can implement your own
 
-<img align="right" src="https://raw.githubusercontent.com/oasisjs/oasis/main/assets/oasis.png" alt="oasis" width=150 height=150 />
-
-**Oasis is written Fully in typescript**
+> Oasis is written Fully in typescript
 
 ## Efficient & Cross-platform
 
