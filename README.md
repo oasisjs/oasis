@@ -1,7 +1,5 @@
 # Oasis
 
-<img align="right" src="https://raw.githubusercontent.com/oasisjs/oasis/main/assets/oasislogo.png" alt="oasis"/>
-
 Bleeding edge object oriented Discordeno framework for creating bots Oasis is minimal by design and it does not ship any
 cache layer so you can implement your own
 
